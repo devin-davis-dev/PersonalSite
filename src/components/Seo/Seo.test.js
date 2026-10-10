@@ -1,5 +1,5 @@
 import { render, waitFor } from "@testing-library/react";
-import metaData from "../../../gatsby-config.js";
+import mockMetaData from "../../../gatsby-config.js";
 import Seo from "./Seo.jsx";
 
 jest.mock("@reach/router");
@@ -8,33 +8,14 @@ jest.mock("gatsby", () => ({
   useStaticQuery: jest.fn(() => ({
     site: {
       siteMetadata: {
-        defaultLang: "en",
-        siteUrl: "https://devdeveloper.ca",
-        defaultTitle: "Devin Davis | Full-Stack Engineer",
-        github: "https://github.com/barnacleDevelopments",
-        linkedin: "https://www.linkedin.com/in/devin-dev-d-63008412b/",
-        metaImage: {
-          src: "assets/logo_2.png",
-          width: 110,
-          height: 110,
-        },
-        defaultDescription:
-          "Explore the professional portfolio of Devin Davis, a results-oriented Full-Stack Engineer.",
-        defaultKeywords: [
-          "Web development",
-          "Full-stack Web developer",
-          "JavaScript Frameworks",
-          "React developer",
-          "Angular",
-          "Node.js",
-          "Next.Js",
-          "Front-end",
-          "Back-end",
-          "Devops engineer",
-          "API integration",
-          "CI/CD pipelines",
-          "Devin Davis portfolio",
-        ],
+        defaultLang: mockMetaData.siteMetadata.lang,
+        siteUrl: mockMetaData.siteMetadata.siteUrl,
+        defaultTitle: mockMetaData.siteMetadata.title,
+        github: mockMetaData.siteMetadata.github,
+        linkedin: mockMetaData.siteMetadata.linkedin,
+        metaImage: mockMetaData.siteMetadata.image,
+        defaultDescription: mockMetaData.siteMetadata.description,
+        defaultKeywords: mockMetaData.siteMetadata.keywords,
       },
     },
   })),
@@ -66,51 +47,54 @@ describe("SEO", () => {
       const twitterImage = document.querySelector('meta[name="twitter:image"]');
       const keywords = document.querySelector('meta[name="keywords"]');
 
-      expect(title).toHaveTextContent(`${metaData.siteMetadata.title}`);
+      expect(title).toHaveTextContent(`${mockMetaData.siteMetadata.title}`);
       expect(description).toHaveAttribute(
         "content",
-        metaData.siteMetadata.description,
+        mockMetaData.siteMetadata.description,
       );
-      expect(github).toHaveAttribute("content", metaData.siteMetadata.github);
+      expect(github).toHaveAttribute(
+        "content",
+        mockMetaData.siteMetadata.github,
+      );
       expect(linkedin).toHaveAttribute(
         "content",
-        metaData.siteMetadata.linkedin,
+        mockMetaData.siteMetadata.linkedin,
       );
       expect(ogTitle).toHaveAttribute(
         "content",
-        metaData.siteMetadata.defaultTitle,
+        mockMetaData.siteMetadata.title,
       );
       expect(ogDescription).toHaveAttribute(
         "content",
-        metaData.siteMetadata.description,
+        mockMetaData.siteMetadata.description,
       );
       expect(ogImage).toHaveAttribute(
         "content",
-        `${metaData.siteMetadata.siteUrl}${metaData.siteMetadata.image.src}`,
+        `${mockMetaData.siteMetadata.siteUrl}${mockMetaData.siteMetadata.image.src}`,
       );
       expect(ogImageWidth).toHaveAttribute(
         "content",
-        metaData.siteMetadata.image.width.toString(),
+        mockMetaData.siteMetadata.image.width.toString(),
       );
       expect(ogImageHeight).toHaveAttribute(
         "content",
-        metaData.siteMetadata.image.height.toString(),
+        mockMetaData.siteMetadata.image.height.toString(),
       );
       expect(twitterTitle).toHaveAttribute(
         "content",
-        metaData.siteMetadata.defaultTitle,
+        mockMetaData.siteMetadata.title,
       );
       expect(twitterDescription).toHaveAttribute(
         "content",
-        metaData.siteMetadata.description,
+        mockMetaData.siteMetadata.description,
       );
       expect(twitterImage).toHaveAttribute(
         "content",
-        `${metaData.siteMetadata.siteUrl}${metaData.siteMetadata.image.src}`,
+        `${mockMetaData.siteMetadata.siteUrl}${mockMetaData.siteMetadata.image.src}`,
       );
       expect(keywords).toHaveAttribute(
         "content",
-        metaData.siteMetadata.keywords.join(","),
+        mockMetaData.siteMetadata.keywords.join(","),
       );
     });
   });
@@ -151,13 +135,13 @@ describe("SEO", () => {
       expect(ogDescription).toHaveAttribute("content", customDescription);
       expect(ogImage).toHaveAttribute(
         "content",
-        `${metaData.siteMetadata.siteUrl}${customImage}`,
+        `${mockMetaData.siteMetadata.siteUrl}${customImage}`,
       );
       expect(twitterTitle).toHaveAttribute("content", customTitle);
       expect(twitterDescription).toHaveAttribute("content", customDescription);
       expect(twitterImage).toHaveAttribute(
         "content",
-        `${metaData.siteMetadata.siteUrl}${customImage}`,
+        `${mockMetaData.siteMetadata.siteUrl}${customImage}`,
       );
       expect(keywords).toHaveAttribute("content", customKeywords.join(","));
     });
