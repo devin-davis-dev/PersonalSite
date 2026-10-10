@@ -1,4 +1,4 @@
-import { Flex } from "@theme-ui/components";
+import { Flex } from "theme-ui";
 import Loader from "../Loader";
 
 const PageLoader = () => (

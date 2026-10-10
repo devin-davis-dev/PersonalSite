@@ -1,5 +1,5 @@
-import { Box } from "@theme-ui/components";
 import { memo, useEffect, useRef } from "react";
+import { Box } from "theme-ui";
 
 const Loader = () => {
   const heroBtnBackgroundRef = useRef();

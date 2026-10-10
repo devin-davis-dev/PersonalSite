@@ -29,6 +29,15 @@
     }
   },
   "files": {
-    "ignore": ["node_modules", ".cache", "public"]
+    "ignore": [
+      "node_modules",
+      ".cache",
+      "public",
+      "artifacts",
+      "**/artifacts/**",
+      "**/cache/**",
+      "apps/web/.cache",
+      "apps/web/public"
+    ]
   }
 }

@@ -1,4 +1,4 @@
-import { Flex } from "@theme-ui/components";
+import { Flex } from "theme-ui";
 
 const Shadow = ({ children }) => {
   return (

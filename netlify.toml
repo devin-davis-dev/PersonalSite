@@ -1,6 +1,7 @@
 [build]
-  command = "npm run build"
-  publish = "public"
+  command = "pnpm --filter web build"
+  publish = "apps/web/public"
+  functions = "apps/web/netlify/functions"
 
 [build.environment]
   NODE_VERSION = "22"
