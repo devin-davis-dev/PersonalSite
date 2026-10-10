@@ -13,12 +13,6 @@
   "recent_posts": "Articles récents",
   "recent_projects": "Projets récents",
   "reading_list": "Liste de lecture",
-  "reading_list_tooltip": "Les livres sont synchronisés depuis ma liseuse Kobo. Les couvertures sont extraites des EPUBs et la progression de lecture est mise à jour automatiquement.",
-  "filter_all": "Tous",
-  "filter_read": "Lus",
-  "filter_unread": "Non lus",
-  "no_read_books": "Aucun livre lu à afficher.",
-  "no_unread_books": "Aucun livre non lu à afficher.",
   "cta_title": "Travaillons ensemble",
   "cta_content": "Je suis un développeur passionné qui cherche toujours à maîtriser de nouvelles compétences et à être utile à ceux avec qui je travaille.",
   "cta_button": "Découvrez comment je peux aider"

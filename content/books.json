@@ -1,0 +1,82 @@
+[
+  {
+    "title": "The Pragmatic Programmer",
+    "author": "Andrew Hunt, David Thomas",
+    "cover_image": "isbn_9780135956977.jpg"
+  },
+  {
+    "title": "Don't Make Me Think, Revisited",
+    "author": "Steve Krug",
+    "cover_image": "dont_make_me_think_revisited_a_common_sense_approa.jpg"
+  },
+  {
+    "title": "The Art Of PostgreSQL",
+    "author": "Dimitri Fontaine",
+    "cover_image": "isbn_978-1-949-95036-6.jpg"
+  },
+  {
+    "title": "Structure and Interpretation of Computer Programs",
+    "author": "Harold Abelson, Gerald Jay Sussman",
+    "cover_image": "structureandinterpretationofcomputerprograms.jpg"
+  },
+  {
+    "title": "Mastering Cloudflare",
+    "author": "Robert Johnson",
+    "cover_image": "mastering_cloudflare.jpg"
+  },
+  {
+    "title": "Mastering Emacs",
+    "author": "Mickey Petersen",
+    "cover_image": "mastering_emacs.jpg"
+  },
+  {
+    "title": "Game Theory: A Very Short Introduction",
+    "author": "K. G. Binmore",
+    "cover_image": "isbn_9780199218462.jpg"
+  },
+  {
+    "title": "Verified",
+    "author": "Mike Caulfield, Sam Wineburg",
+    "cover_image": "isbn_9780226829845.jpg"
+  },
+  {
+    "title": "Peak Performance",
+    "author": "Brad Stulberg, Steve Magness",
+    "cover_image": "peak_performance.jpg"
+  },
+  {
+    "title": "See, Solve, Scale",
+    "author": "Danny Warshay",
+    "cover_image": "isbn_9781250272324.jpg"
+  },
+  {
+    "title": "Blockchain in the Industrial Internet of Things",
+    "author": "Lakshmana Kumar Ramasamy, Seifedine Kadry",
+    "cover_image": "blockchain_in_the_industrial_internet_of_things.jpg"
+  },
+  {
+    "title": "Blockchain and the Supply Chain",
+    "author": "Nick Vyas, Aljosja Beije, Bhaskar Krishnamachari",
+    "cover_image": "blockchain_and_the_supply_chain_concepts_strategie.jpg"
+  },
+  {
+    "title": "The UNIX-Haters Handbook",
+    "author": "Simson Garfinkel",
+    "cover_image": "ughbook.jpg"
+  },
+  {
+    "title": "BioShock: Rapture",
+    "author": "John Shirley",
+    "cover_image": "bioshock_-_rapture.jpg"
+  },
+  {
+    "title": "Casting SPELs in Lisp",
+    "author": "Conrad Barski",
+    "cover_image": "casting_spels.jpg"
+  },
+  {
+    "title": "Co-Intelligence",
+    "author": "Ethan Mollick",
+    "cover_image": null
+  }
+]

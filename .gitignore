@@ -14,3 +14,7 @@ node_modules
 test-results/
 playwright-report/
 .aider*
+
+# Python
+__pycache__/
+*.py[cod]

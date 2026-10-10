@@ -25,32 +25,6 @@ async function fetchCommits(githubURL) {
   }
 }
 
-exports.createSchemaCustomization = ({ actions }) => {
-  const { createTypes } = actions;
-  const typeDefs = `
-    type ContentJsonCurrently_reading {
-      id: String
-      title: String
-      author: String
-      publisher: String
-      description: String
-      last_read: Date
-      progress_percent: Int
-      read_status: Int
-      cover_image_id: String
-      isbn: String
-      goodreads_url: String
-    }
-    type ContentJsonRecently_finished {
-      title: String
-      author: String
-      finished_date: Date
-      isbn: String
-    }
-  `;
-  createTypes(typeDefs);
-};
-
 exports.createPages = async ({ actions, graphql }) => {
   const { createPage } = actions;
 

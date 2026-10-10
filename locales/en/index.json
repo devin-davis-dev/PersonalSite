@@ -13,12 +13,6 @@
   "recent_posts": "Recent Posts",
   "recent_projects": "Recent Projects",
   "reading_list": "Reading List",
-  "reading_list_tooltip": "Books are synced from my Kobo e-reader. Covers are extracted from EPUBs and reading progress is updated automatically.",
-  "filter_all": "All",
-  "filter_read": "Read",
-  "filter_unread": "Unread",
-  "no_read_books": "No read books to display.",
-  "no_unread_books": "No unread books to display.",
   "cta_title": "Let's Work Together",
   "cta_content": "I'm a passionate developer who is always trying to master new skills and be of service to those I work with.",
   "cta_button": "Learn how I can help"

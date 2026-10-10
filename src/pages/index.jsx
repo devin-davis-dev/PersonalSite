@@ -1,12 +1,11 @@
 import { graphql } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { Link, useTranslation } from "gatsby-plugin-react-i18next";
-import { useState } from "react";
 import { Box, Button, Flex, Grid, Heading, Text } from "theme-ui";
 
+import booksData from "../../content/books.json";
 import BookCard from "../components/BookCard/BookCard";
 import CallToAction from "../components/CallToAction";
-import FilterBar from "../components/FilterBar";
 import Loader from "../components/Loader";
 import PostCard from "../components/PostCard/PostCard";
 import ProjectCard from "../components/ProjectCard/ProjectCard";
@@ -17,7 +16,6 @@ import { getYearsOfExperience } from "../utils/experience";
 
 const IndexPage = ({ data }) => {
   const { t } = useTranslation("index");
-  const [bookFilter, setBookFilter] = useState("all");
 
   const posts = data.blogPosts.edges
     .filter((_, index) => index < 4)
@@ -27,42 +25,21 @@ const IndexPage = ({ data }) => {
       excerpt: node.excerpt,
     }));
 
-  const readingProgressData = data.readingProgress?.nodes?.[0] || {};
-  const currentlyReading = readingProgressData.currently_reading || [];
-  const recentlyFinished = readingProgressData.recently_finished || [];
-
-  // Create a map of book covers by filename (without extension)
   const bookCoverMap = {};
   for (const cover of data.bookCovers?.nodes ?? []) {
     bookCoverMap[cover.name] = cover.childImageSharp;
   }
 
-  const allBooks = [
-    ...currentlyReading.map((book) => {
-      // Try to find local cover
-      let coverImage = null;
-      if (book.cover_image) {
-        const coverName = book.cover_image.replace(/\.[^/.]+$/, ""); // Remove extension
-        coverImage = bookCoverMap[coverName] || null;
-      }
-
-      return {
-        ...book,
-        read: false,
-        image: coverImage,
-      };
-    }),
-    ...recentlyFinished.map((book) => ({
+  const books = booksData.map((book) => {
+    let coverImage = null;
+    if (book.cover_image) {
+      const coverName = book.cover_image.replace(/\.[^/.]+$/, "");
+      coverImage = bookCoverMap[coverName] || null;
+    }
+    return {
       ...book,
-      read: true,
-      image: null, // No covers for finished books
-    })),
-  ];
-
-  const books = allBooks.filter((book) => {
-    if (bookFilter === "read") return book.read === true;
-    if (bookFilter === "unread") return !book.read;
-    return true;
+      image: coverImage,
+    };
   });
 
   const projects = data.projects.edges.map(({ node }) => ({
@@ -245,83 +222,38 @@ const IndexPage = ({ data }) => {
             ))}
           </Grid>
         </Box>
+
         <Box as="section" sx={{ mb: 4 }}>
+          <Heading as="h3" variant="subheading1" sx={{ mb: 3 }}>
+            {t("reading_list")}
+          </Heading>
           <Flex
             sx={{
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 3,
-              flexWrap: "wrap",
-              gap: 2,
+              gap: 3,
+              overflowX: "auto",
+              overflowY: "hidden",
+              width: "100%",
+              pb: 2,
+              "&::-webkit-scrollbar": {
+                height: "8px",
+              },
+              "&::-webkit-scrollbar-track": {
+                background: "muted",
+                borderRadius: "4px",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                background: "primary",
+                borderRadius: "4px",
+                "&:hover": {
+                  background: "text",
+                },
+              },
             }}
           >
-            <Flex sx={{ alignItems: "center", gap: 2 }}>
-              <Heading as="h3" variant="subheading1" sx={{ mb: 0 }}>
-                {t("reading_list")}
-              </Heading>
-              <Tooltip text={t("reading_list_tooltip")} />
-            </Flex>
-            <FilterBar
-              options={[
-                { value: "all", label: t("filter_all") },
-                { value: "read", label: t("filter_read") },
-                { value: "unread", label: t("filter_unread") },
-              ]}
-              active={bookFilter}
-              onChange={setBookFilter}
-            />
+            {books.map((book) => (
+              <BookCard key={book.title} book={book} />
+            ))}
           </Flex>
-          <Box
-            sx={{
-              minHeight: "250px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            {books.length > 0 ? (
-              <Flex
-                sx={{
-                  gap: 3,
-                  overflowX: "auto",
-                  overflowY: "hidden",
-                  width: "100%",
-                  "&::-webkit-scrollbar": {
-                    height: "8px",
-                  },
-                  "&::-webkit-scrollbar-track": {
-                    background: "muted",
-                    borderRadius: "4px",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    background: "primary",
-                    borderRadius: "4px",
-                    "&:hover": {
-                      background: "text",
-                    },
-                  },
-                }}
-              >
-                {books.map((book) => (
-                  <BookCard key={book.title} book={book} />
-                ))}
-              </Flex>
-            ) : (
-              <Box
-                sx={{
-                  textAlign: "center",
-                  width: "100%",
-                  py: 4,
-                  color: "primary",
-                }}
-              >
-                <Text variant="regular">
-                  {bookFilter === "read"
-                    ? t("no_read_books")
-                    : t("no_unread_books")}
-                </Text>
-              </Box>
-            )}
-          </Box>
         </Box>
 
         <Box as="section" sx={{ mt: 3 }}>
@@ -417,30 +349,6 @@ export const landingPageQuery = graphql`
               }
             }
           }
-        }
-      }
-    }
-
-    readingProgress: allContentJson {
-      nodes {
-        currently_reading {
-          id
-          title
-          author
-          publisher
-          description
-          last_read
-          progress_percent
-          read_status
-          cover_image_id
-          isbn
-          cover_image
-        }
-        recently_finished {
-          title
-          author
-          finished_date
-          isbn
         }
       }
     }
