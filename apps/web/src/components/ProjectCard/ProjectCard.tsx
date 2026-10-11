@@ -11,6 +11,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
   const { t } = useTranslation("common");
+  const cardImage = project.image1 ? getImage(project.image1) : null;
   return (
     <Card
       variant="primary"
@@ -110,7 +111,7 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
             </Link>
           </Box>
         </Box>
-        {project.image1 && (
+        {cardImage && (
           <Box
             sx={{
               maxWidth: "400px",
@@ -119,7 +120,7 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
               overflow: "hidden",
             }}
           >
-            <GatsbyImage image={getImage(project.image1)!} alt={"image 1"} />
+            <GatsbyImage image={cardImage} alt={"image 1"} />
           </Box>
         )}
       </Flex>

@@ -225,6 +225,7 @@ query ProjectBySlug($slug: String!, $language: String!) {
           }
           image1 {
             childImageSharp {
+              gatsbyImageData
               original {
                 src
               }

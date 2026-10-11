@@ -1,6 +1,6 @@
 import { type PageProps, graphql } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
-import { useTranslation } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { useRef, useState } from "react";
 import { Box, Grid, Heading, Paragraph, Text } from "theme-ui";
 
@@ -90,39 +90,45 @@ const AboutPage = ({ data }: PageProps<AboutPageData>) => {
         >
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              borderRadius: "10px",
+              overflow: "hidden",
+              display: ["none", "none", "none", "block"],
             }}
           >
-            <Box
-              sx={{
-                width: ["70%", "80%", "90%"],
-                borderRadius: "100%",
-                overflow: "hidden",
-              }}
-            >
-              <StaticImage
-                src="../images/dev-on-tree.jpeg"
-                alt="Devin on tree"
-              />
-            </Box>
+            <StaticImage
+              src="../images/devin_portrait_2.jpg"
+              alt="dev portrait"
+            />
           </Box>
           <Box>
-            <Heading variant="subheading1" as="h2">
-              {t("journey_title")}
-            </Heading>
-            <Paragraph variant="small" sx={{ mb: 3 }}>
-              {t("journey_p1")}
+            <Paragraph variant="regular">{t("bio_text_1")}</Paragraph>
+            <Paragraph variant="regular">
+              {t("bio_text_3a")}
+              <Link
+                to="/climbing"
+                sx={{
+                  color: "orange",
+                  textDecoration: "none",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+              >
+                {t("bio_text_3_link")}
+              </Link>
+              {t("bio_text_3b")}
             </Paragraph>
-            <Paragraph variant="small" sx={{ mb: 3 }}>
-              {t("journey_p2")}
-            </Paragraph>
-            <Paragraph variant="small" sx={{ mb: 3 }}>
-              {t("journey_p3")}
-            </Paragraph>
-            <Paragraph variant="small" sx={{ mb: 3 }}>
-              {t("journey_p4")}
+            <Paragraph variant="regular">
+              {t("bio_text_4")}
+              <Link
+                to="/contact"
+                sx={{
+                  color: "orange",
+                  textDecoration: "none",
+                  "&:hover": { textDecoration: "underline" },
+                }}
+              >
+                {t("please_reach_out")}
+              </Link>
+              {t("bio_text_2")}
             </Paragraph>
           </Box>
         </Grid>
