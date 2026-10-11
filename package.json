@@ -16,6 +16,7 @@
     "test:e2e": "pnpm --filter web test:e2e",
     "biome:lint": "biome check .",
     "biome:fix": "biome check --write --unsafe .",
+    "typecheck": "pnpm --filter web typecheck",
     "prepare": "husky"
   },
   "devDependencies": {

@@ -6,6 +6,7 @@
         "reactRuntime": "automatic",
         "reactImportSource": "theme-ui"
       }
-    ]
+    ],
+    "@babel/preset-typescript"
   ]
 }

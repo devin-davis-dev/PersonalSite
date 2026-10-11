@@ -17,6 +17,7 @@ This repository is a `pnpm` workspace monorepo:
 - `pnpm run test:e2e`: Run Playwright end-to-end tests
 - `pnpm run biome:lint`: Run Biome linter across the entire monorepo
 - `pnpm run biome:fix`: Auto-fix Biome formatting/linting issues
+- `pnpm run typecheck`: Run TypeScript type checking for the web app
 
 ## Internationalization (i18n)
 

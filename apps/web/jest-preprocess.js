@@ -7,6 +7,7 @@ const babelOptions = {
         reactImportSource: "theme-ui",
       },
     ],
+    "@babel/preset-typescript",
   ],
 };
 

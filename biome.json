@@ -12,7 +12,11 @@
         "noUnusedVariables": "error"
       },
       "style": {
-        "noUnusedTemplateLiteral": "off"
+        "noUnusedTemplateLiteral": "off",
+        "noNonNullAssertion": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
       }
     }
   },
