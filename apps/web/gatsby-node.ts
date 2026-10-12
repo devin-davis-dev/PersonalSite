@@ -240,5 +240,30 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
   getConfig,
 }) => {
   const config = getConfig();
+
+  // Ensure all CSS rules treat imports as having side effects so Webpack 5
+  // never tree-shakes npm package stylesheets (e.g. @rainbow-me/rainbowkit/styles.css)
+  if (config.module?.rules) {
+    for (const rule of config.module.rules) {
+      if (rule.oneOf) {
+        for (const subRule of rule.oneOf) {
+          if (
+            subRule.test &&
+            subRule.test instanceof RegExp &&
+            subRule.test.test("test.css")
+          ) {
+            subRule.sideEffects = true;
+          }
+        }
+      } else if (
+        rule.test &&
+        rule.test instanceof RegExp &&
+        rule.test.test("test.css")
+      ) {
+        rule.sideEffects = true;
+      }
+    }
+  }
+
   actions.replaceWebpackConfig(config);
 };

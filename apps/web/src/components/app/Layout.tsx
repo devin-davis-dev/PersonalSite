@@ -5,10 +5,12 @@ import type React from "react";
 import { ThemeUIProvider } from "theme-ui";
 
 import theme from "../../theme/theme";
+import Web3Provider from "../Web3Provider";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 import "../../css/reset.css";
+import "@rainbow-me/rainbowkit/styles.css";
 
 const components: Record<string, any> = {
   pre: ({ children }: { children: React.ReactNode }) => <>{children}</>,
@@ -25,11 +27,13 @@ const Layout = ({ children }: LayoutProps) => {
   );
   return (
     <ThemeUIProvider theme={theme}>
-      <MDXProvider components={componentsWithStyles as any}>
-        <Navbar />
-        <main sx={{ paddingTop: "60px" }}>{children}</main>
-        <Footer />
-      </MDXProvider>
+      <Web3Provider>
+        <MDXProvider components={componentsWithStyles as any}>
+          <Navbar />
+          <main sx={{ paddingTop: "60px" }}>{children}</main>
+          <Footer />
+        </MDXProvider>
+      </Web3Provider>
     </ThemeUIProvider>
   );
 };

@@ -183,7 +183,7 @@ const theme: Theme & Record<string, any> = {
       color: "#FFFFFF",
       textDecoration: "none",
       "&:hover": {
-        color: "#E07A5F",
+        color: "orange",
         textDecoration: "underline",
       },
       "&:focus": {
@@ -286,6 +286,19 @@ const theme: Theme & Record<string, any> = {
       },
     },
     disabled: {},
+    ghost: {
+      fontFamily: "body",
+      cursor: "pointer",
+      bg: "transparent",
+      color: "inherit",
+      border: "none",
+      boxShadow: "none",
+      transition: "all 0.2s ease-in-out",
+      "&:hover": {
+        bg: "transparent",
+        boxShadow: "none",
+      },
+    },
   },
   inputs: {
     primary: {

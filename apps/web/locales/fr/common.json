@@ -15,5 +15,7 @@
   "status_complete": "Terminé",
   "build_status_live": "En ligne",
   "build_status_building": "En construction",
-  "build_status_error": "Erreur"
+  "build_status_error": "Erreur",
+  "wallet_connect": "Connecter le portefeuille",
+  "wallet_wrong_network": "Réseau invalide"
 }

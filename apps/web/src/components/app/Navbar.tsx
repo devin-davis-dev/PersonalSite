@@ -1,5 +1,5 @@
 import { StaticImage } from "gatsby-plugin-image";
-import { Link, useTranslation } from "gatsby-plugin-react-i18next";
+import { Link } from "gatsby-plugin-react-i18next";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
@@ -7,14 +7,16 @@ import {
   Link as ThemeLink,
   type ThemeUIStyleObject,
 } from "theme-ui";
+import { useNavLinks } from "../../hooks/use-nav-links";
 import BuildStatus from "../BuildStatus/BuildStatus";
+import ConnectWallet from "../ConnectWallet";
 import SideNav from "./SideNav";
 
 const Navbar = () => {
-  const { t } = useTranslation("common");
   const [isScrolledTop, setIsScrolledTop] = useState(true);
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navLinks = useNavLinks();
 
   const styleNavBar = useCallback(() => {
     if (scrollTimeoutRef.current) {
@@ -54,9 +56,22 @@ const Navbar = () => {
     };
   }, [styleNavBar]);
 
+  const navLinkStyle: ThemeUIStyleObject = {
+    mr: 3,
+    color: !isScrolledTop ? "#30362F" : "white",
+    textDecoration: "none",
+    fontWeight: "bold",
+    transition: "color 0.2s ease-in-out",
+    "&:hover": {
+      color: "orange",
+      textDecoration: "underline",
+    },
+  };
+
   return (
     <Box as="nav" sx={nav}>
       <Flex
+        data-testid="navbar-wrapper"
         sx={navWrapper}
         style={{ backgroundColor: !isScrolledTop ? "#ffffffe6" : undefined }}
       >
@@ -66,136 +81,96 @@ const Navbar = () => {
           enableScrollFunc={enableScroll}
         />
         <Box
+          data-testid="navbar-desktop-container"
           sx={{
-            width: "90%",
+            width: ["90%", "80%", "70%"],
+            margin: "0 auto",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
           }}
         >
-          <Box sx={{ display: ["none", "block"], color: "white" }}>
-            <Link
-              to="/blog"
+          <Flex sx={{ alignItems: "center" }}>
+            <Link to="/" sx={{ width: "60px", mr: [0, 4], flexShrink: 0 }}>
+              <Box className="nav-triangle" />
+              <Box sx={{ filter: isScrolledTop ? "none" : "brightness(0)" }}>
+                <StaticImage alt="logo" src="../../images/logo.png" />
+              </Box>
+              <Box className="nav-triangle" />
+            </Link>
+            <Flex
+              data-testid="desktop-links"
               sx={{
-                mr: 3,
-                color: !isScrolledTop ? "#30362F" : "white",
-                textDecoration: "none",
-                fontWeight: "bold",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
+                display: ["none", "none", "none", "flex"],
+                alignItems: "center",
+                color: "white",
               }}
             >
-              {t("nav_blog")}
-            </Link>
-            <Link
-              to="/contact"
-              sx={{
-                mr: 3,
-                color: !isScrolledTop ? "#30362F" : "white",
-                textDecoration: "none",
-                fontWeight: "bold",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
+              {navLinks.map((link, index) => {
+                const isLast = index === navLinks.length - 1;
+                const sx = {
+                  ...navLinkStyle,
+                  mr: isLast ? 0 : 3,
+                };
+
+                if (link.external) {
+                  return (
+                    <ThemeLink
+                      key={link.to}
+                      sx={sx}
+                      target="_blank"
+                      href={link.to}
+                    >
+                      {link.label}
+                    </ThemeLink>
+                  );
+                }
+
+                return (
+                  <Link key={link.to} to={link.to} sx={sx}>
+                    {link.label}
+                  </Link>
+                );
+              })}
+            </Flex>
+          </Flex>
+          <Flex sx={{ alignItems: "center" }}>
+            <Box
+              sx={hamburgerStyles}
+              onClick={() => {
+                setSideNavOpen(true);
+                disableScroll();
               }}
             >
-              {t("nav_contact")}
-            </Link>
-            <Link
-              to="/climbing"
-              sx={{
-                color: !isScrolledTop ? "#30362F" : "white",
-                textDecoration: "none",
-                fontWeight: "bold",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {t("nav_climbing")}
-            </Link>
-          </Box>
-          <Link to="/" sx={{ width: "60px" }}>
-            <Box className="nav-triangle" />
-            <Box sx={{ filter: isScrolledTop ? "none" : "brightness(0)" }}>
-              <StaticImage alt="logo" src="../../images/logo.png" />
+              <div
+                sx={{
+                  ...hamburderPatty,
+                  backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
+                }}
+              />
+              <div
+                sx={{
+                  ...hamburderPatty,
+                  backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
+                }}
+              />
+              <div
+                sx={{
+                  ...hamburderPatty,
+                  backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
+                }}
+              />
             </Box>
-            <Box className="nav-triangle" />
-          </Link>
-          <Box
-            sx={hamburgerStyles}
-            onClick={() => {
-              setSideNavOpen(true);
-              disableScroll();
-            }}
-          >
-            <div
+            <Flex
               sx={{
-                ...hamburderPatty,
-                backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
-              }}
-            />
-            <div
-              sx={{
-                ...hamburderPatty,
-                backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
-              }}
-            />
-            <div
-              sx={{
-                ...hamburderPatty,
-                backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
-              }}
-            />
-          </Box>
-          <Flex
-            sx={{
-              display: ["none", "flex"],
-              alignItems: "center",
-              color: "white",
-            }}
-          >
-            <Link
-              to="/projects"
-              sx={{
-                mr: 3,
-                color: !isScrolledTop ? "#30362F" : "white",
-                textDecoration: "none",
-                fontWeight: "bold",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
+                display: ["none", "none", "none", "flex"],
+                alignItems: "center",
+                color: "white",
               }}
             >
-              {t("nav_projects")}
-            </Link>
-            <Link
-              to="/about"
-              sx={{
-                color: !isScrolledTop ? "#30362F" : "white",
-                textDecoration: "none",
-                fontWeight: "bold",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {t("nav_about")}
-            </Link>
-            <ThemeLink
-              sx={{
-                ml: 3,
-                fontWeight: "bold",
-                color: !isScrolledTop ? "#30362F" : "white",
-              }}
-              target="_blank"
-              href="https://www.linkedin.com/in/devin-dev-d-63008412b"
-              variant="footer"
-            >
-              LinkedIn
-            </ThemeLink>
-            <BuildStatus isScrolledTop={isScrolledTop} />
+              <BuildStatus isScrolledTop={isScrolledTop} sx={{ mr: 3 }} />
+              <ConnectWallet isScrolledTop={isScrolledTop} />
+            </Flex>
           </Flex>
         </Box>
       </Flex>
@@ -232,7 +207,7 @@ const hamburgerStyles: ThemeUIStyleObject = {
   flexDirection: "column",
   justifyContent: "space-between",
   cursor: "pointer",
-  display: ["flex", "none"],
+  display: ["flex", "flex", "flex", "none"],
 };
 
 const hamburderPatty: ThemeUIStyleObject = {

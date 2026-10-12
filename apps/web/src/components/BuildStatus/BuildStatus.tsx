@@ -1,7 +1,7 @@
 import { keyframes } from "@emotion/react";
 import { useTranslation } from "gatsby-plugin-react-i18next";
 import { useEffect, useState } from "react";
-import { Box, Flex } from "theme-ui";
+import { Box, Flex, type ThemeUIStyleObject } from "theme-ui";
 
 const pulse = keyframes`
   0%, 100% { opacity: 1; }
@@ -24,9 +24,10 @@ const POLL_INTERVAL = 30000;
 
 interface BuildStatusProps {
   isScrolledTop?: boolean;
+  sx?: ThemeUIStyleObject;
 }
 
-const BuildStatus = ({ isScrolledTop = true }: BuildStatusProps) => {
+const BuildStatus = ({ isScrolledTop = true, sx }: BuildStatusProps) => {
   const { t } = useTranslation("common");
   const [status, setStatus] = useState<StatusKey | null>(null);
 
@@ -60,7 +61,7 @@ const BuildStatus = ({ isScrolledTop = true }: BuildStatusProps) => {
   const textColor = isScrolledTop ? "white" : "#30362F";
 
   return (
-    <Flex sx={{ alignItems: "center", gap: "6px", ml: 3 }}>
+    <Flex sx={{ alignItems: "center", gap: "6px", ...sx }}>
       <Box
         sx={{
           width: "8px",

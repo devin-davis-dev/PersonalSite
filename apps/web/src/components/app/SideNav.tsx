@@ -1,7 +1,9 @@
 import { StaticImage } from "gatsby-plugin-image";
-import { Link, useTranslation } from "gatsby-plugin-react-i18next";
-import { Box, Flex } from "theme-ui";
+import { Link } from "gatsby-plugin-react-i18next";
+import { Box, Flex, Link as ThemeLink } from "theme-ui";
+import { useNavLinks } from "../../hooks/use-nav-links";
 import BuildStatus from "../BuildStatus/BuildStatus";
+import ConnectWallet from "../ConnectWallet";
 import { CloseButton } from "./CloseButton";
 
 interface SideNavProps {
@@ -15,7 +17,7 @@ const SideNav = ({
   setSideNavOpen,
   enableScrollFunc,
 }: SideNavProps) => {
-  const { t } = useTranslation("common");
+  const navLinks = useNavLinks();
   const handleLinkClick = () => {
     setSideNavOpen(false);
     enableScrollFunc();
@@ -73,98 +75,46 @@ const SideNav = ({
             a: { mb: 3 },
           }}
         >
-          <Link
-            to="/"
-            sx={{
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 4,
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
+          {navLinks.map((link) => {
+            const commonProps = {
+              sx: {
+                color: "primary",
+                textDecoration: "none",
+                fontSize: 4,
+                fontWeight: "bold",
+                transition: "color 0.2s ease-in-out",
+                "&:hover": {
+                  color: "orange",
+                  textDecoration: "underline",
+                },
               },
-            }}
-            onClick={handleLinkClick}
-          >
-            {t("nav_home")}
-          </Link>
-          <Link
-            to="/blog"
-            sx={{
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 4,
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleLinkClick}
-          >
-            {t("nav_blog")}
-          </Link>
-          <Link
-            to="/contact"
-            sx={{
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 4,
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleLinkClick}
-          >
-            {t("nav_contact")}
-          </Link>
-          <Link
-            to="/projects"
-            sx={{
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 4,
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleLinkClick}
-          >
-            {t("nav_projects")}
-          </Link>
-          <Link
-            to="/about"
-            sx={{
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 4,
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleLinkClick}
-          >
-            {t("nav_about")}
-          </Link>
-          <Link
-            to="/climbing"
-            sx={{
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 4,
-              fontWeight: "bold",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleLinkClick}
-          >
-            {t("nav_climbing")}
-          </Link>
+              onClick: handleLinkClick,
+            };
+
+            if (link.external) {
+              return (
+                <ThemeLink
+                  key={link.to}
+                  {...commonProps}
+                  target="_blank"
+                  href={link.to}
+                >
+                  {link.label}
+                </ThemeLink>
+              );
+            }
+
+            return (
+              <Link key={link.to} {...commonProps} to={link.to}>
+                {link.label}
+              </Link>
+            );
+          })}
         </Flex>
-        <BuildStatus isScrolledTop={false} />
+        <Flex sx={{ justifyContent: "center", mb: 3 }}>
+          <ConnectWallet isScrolledTop={false} />
+        </Flex>
+        <BuildStatus isScrolledTop={false} sx={{ justifyContent: "center" }} />
       </Box>
     </Flex>
   );

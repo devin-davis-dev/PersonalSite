@@ -15,5 +15,7 @@
   "status_complete": "Complete",
   "build_status_live": "Live",
   "build_status_building": "Building",
-  "build_status_error": "Error"
+  "build_status_error": "Error",
+  "wallet_connect": "Connect Wallet",
+  "wallet_wrong_network": "Wrong Network"
 }
