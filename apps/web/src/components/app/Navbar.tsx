@@ -1,3 +1,4 @@
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby-plugin-react-i18next";
@@ -62,6 +63,8 @@ const Navbar = () => {
     color: !isScrolledTop ? "primary" : "white",
     textDecoration: "none",
     fontWeight: "bold",
+    display: "inline-flex",
+    alignItems: "center",
     transition: "color 0.2s ease-in-out",
     "&:hover": {
       color: "orange",
@@ -112,6 +115,17 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+              <Box
+                sx={{
+                  height: "16px",
+                  width: "1px",
+                  bg: !isScrolledTop ? "primary" : "white",
+                  opacity: 0.3,
+                  mr: 3,
+                  alignSelf: "center",
+                }}
+                aria-hidden={true}
+              />
               {externalNavLinks.map((link, index) => {
                 const isLast = index === externalNavLinks.length - 1;
                 return (
@@ -120,21 +134,39 @@ const Navbar = () => {
                     sx={{
                       ...navLinkStyle,
                       mr: isLast ? 0 : 3,
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 1,
+                      gap: "6px",
                     }}
                     target="_blank"
+                    rel="noopener noreferrer"
                     href={link.to}
                   >
                     {link.icon && (
                       <Icon
                         icon={link.icon}
                         aria-hidden={true}
-                        sx={{ fontSize: "1em" }}
+                        sx={{ fontSize: "1em", flexShrink: 0 }}
                       />
                     )}
-                    {link.label}
+                    <Box
+                      as="span"
+                      sx={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "3px",
+                      }}
+                    >
+                      {link.label}
+                      <Icon
+                        icon={faArrowUpRightFromSquare}
+                        aria-hidden={true}
+                        sx={{
+                          fontSize: "0.65em",
+                          opacity: 0.65,
+                          transform: "translateY(-1px)",
+                          flexShrink: 0,
+                        }}
+                      />
+                    </Box>
                   </ThemeLink>
                 );
               })}

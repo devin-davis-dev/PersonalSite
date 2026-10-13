@@ -1,3 +1,4 @@
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import {
@@ -28,10 +29,6 @@ const footerLinkStyle: ThemeUIStyleObject = {
   "&:hover": {
     color: "orange",
     textDecoration: "underline",
-  },
-  svg: {
-    fontSize: "1.2em",
-    mr: 1,
   },
 };
 
@@ -69,11 +66,40 @@ const Footer = () => {
               <ThemeLink
                 key={link.to}
                 target="_blank"
+                rel="noopener noreferrer"
                 href={link.to}
-                sx={footerLinkStyle}
+                sx={{
+                  ...footerLinkStyle,
+                  gap: "6px",
+                }}
               >
-                {link.icon && <Icon icon={link.icon} aria-hidden={true} />}
-                <span>{link.label}</span>
+                {link.icon && (
+                  <Icon
+                    icon={link.icon}
+                    aria-hidden={true}
+                    sx={{ fontSize: "1.2em", flexShrink: 0 }}
+                  />
+                )}
+                <Box
+                  as="span"
+                  sx={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "3px",
+                  }}
+                >
+                  {link.label}
+                  <Icon
+                    icon={faArrowUpRightFromSquare}
+                    aria-hidden={true}
+                    sx={{
+                      fontSize: "0.65em",
+                      opacity: 0.65,
+                      transform: "translateY(-1px)",
+                      flexShrink: 0,
+                    }}
+                  />
+                </Box>
               </ThemeLink>
             ))}
           </Flex>
