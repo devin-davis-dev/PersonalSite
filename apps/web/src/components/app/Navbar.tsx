@@ -160,7 +160,15 @@ const Navbar = () => {
                 }}
               />
             </Box>
-            <ConnectWallet isScrolledTop={isScrolledTop} />
+            <Flex
+              sx={{
+                display: ["none", "none", "none", "flex"],
+                alignItems: "center",
+                color: "white",
+              }}
+            >
+              <ConnectWallet isScrolledTop={isScrolledTop} />
+            </Flex>
           </Flex>
         </Box>
       </Flex>
