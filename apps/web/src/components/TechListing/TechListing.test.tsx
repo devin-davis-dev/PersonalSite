@@ -1,15 +1,6 @@
-import { fireEvent, render, screen } from "@testing-library/react";
 import { getImage } from "gatsby-plugin-image";
+import { fireEvent, render, screen } from "../../test-utils";
 import { TechListing } from "./TechListing";
-
-// Mock GatsbyImage
-jest.mock("gatsby-plugin-image", () => ({
-  // biome-ignore lint/a11y/useAltText: alt is passed through props
-  GatsbyImage: ({ image, alt, ...props }: any) => (
-    <img src={image?.src} alt={alt} {...props} />
-  ),
-  getImage: jest.fn(),
-}));
 
 const mockTechnologies = [
   {

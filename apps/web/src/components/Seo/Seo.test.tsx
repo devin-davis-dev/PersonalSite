@@ -1,5 +1,5 @@
-import { render, waitFor } from "@testing-library/react";
 import mockMetaData from "../../../gatsby-config";
+import { render, waitFor } from "../../test-utils";
 import Seo from "./Seo";
 
 const mockSiteMetadata = (mockMetaData.siteMetadata ?? {}) as Record<

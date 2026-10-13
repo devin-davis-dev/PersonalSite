@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
 import type React from "react";
+import { fireEvent, render, screen } from "../../test-utils";
 import ConnectWallet from "./ConnectWallet";
 
 // Mock i18next

@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "../../test-utils";
 import Navbar from "./Navbar";
 
 // Mock i18next and Gatsby Link
@@ -29,14 +29,6 @@ jest.mock("gatsby-plugin-react-i18next", () => ({
     <a href={to} {...props}>
       {children}
     </a>
-  ),
-}));
-
-// Mock gatsby-plugin-image
-jest.mock("gatsby-plugin-image", () => ({
-  StaticImage: ({ alt, ...props }: any) => (
-    // biome-ignore lint/a11y/useAltText: Mock implementation for tests
-    <img alt={alt} {...props} />
   ),
 }));
 

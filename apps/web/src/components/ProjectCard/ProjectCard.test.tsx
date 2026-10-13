@@ -1,9 +1,8 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "../../test-utils";
 import { TechListing } from "../TechListing/TechListing";
 import ProjectCard from "./ProjectCard";
 
 jest.mock("../TechListing/TechListing");
-jest.mock("gatsby-plugin-image");
 
 describe("ProjectCard", () => {
   const mockProject = {

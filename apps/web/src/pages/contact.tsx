@@ -1,168 +1,25 @@
-import { faCopy } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { graphql } from "gatsby";
 import { Link as I18nLink, useTranslation } from "gatsby-plugin-react-i18next";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  Input,
-  Link,
-  Paragraph,
-  Text,
-  Textarea,
-} from "theme-ui";
-import * as yup from "yup";
+import { useCallback, useRef, useState } from "react";
+import { Box, Grid, Heading, Link, Paragraph } from "theme-ui";
 
+import ContactForm, {
+  type ContactFormHandle,
+} from "../components/ContactForm/ContactForm";
 import Seo from "../components/Seo/Seo";
 import Layout from "../components/app/Layout";
-import useToast from "../hooks/use-toast";
-
-interface SubmitSuccessProps {
-  showToast: (message: string, variant?: "error" | "success") => void;
-  t: (key: string) => string;
-}
-
-const SubmitSuccess = ({ showToast, t }: SubmitSuccessProps) => {
-  const copyPGP = useCallback(async () => {
-    try {
-      const response = await fetch("/pgp-key.asc");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const text = await response.text();
-      await navigator.clipboard.writeText(text);
-      showToast(t("pgp_copy_success"), "success");
-    } catch {
-      showToast(t("pgp_copy_error"));
-    }
-  }, [showToast, t]);
-
-  return (
-    <Flex
-      sx={{
-        minHeight: "calc(100vh - 160px)",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-      }}
-    >
-      <Box sx={{ textAlign: "center" }}>
-        <Heading variant="large" sx={{ mb: 3 }}>
-          {t("success_title")}
-        </Heading>
-        <Text variant="regular" sx={{ my: 3, display: "block" }}>
-          {t("success_subtitle")}
-        </Text>
-        <Flex sx={{ gap: 3, alignItems: "center", mb: 3 }}>
-          <Box>
-            {t("success_pgp_text")}{" "}
-            <Link
-              variant="text"
-              href="https://www.fortinet.com/resources/cyberglossary/pgp-encryption"
-            >
-              {t("success_pgp_learn")}
-            </Link>{" "}
-          </Box>
-        </Flex>
-        <Button variant="secondary" sx={{ mr: 2 }} onClick={copyPGP}>
-          <Text>{t("success_pgp_button")}</Text>
-          <Icon
-            sx={{
-              ml: 2,
-            }}
-            icon={faCopy}
-          />
-        </Button>
-        <I18nLink to="/">
-          <Button variant="primary">{t("success_back_home")}</Button>
-        </I18nLink>
-      </Box>
-    </Flex>
-  );
-};
 
 const ContactPage = () => {
   const { t } = useTranslation("contact");
   const [isPostSuccessful, setIsPostSuccessful] = useState(false);
   const [isFormHighlighted, setIsFormHighlighted] = useState(false);
-  const { showToast, Toast } = useToast();
-  const schema = useMemo(
-    () =>
-      yup
-        .object({
-          email: yup.string().email().required(),
-          subject: yup.string().min(1).max(40).required(),
-          message: yup.string().min(1).max(5000).required(),
-        })
-        .required(),
-    [],
-  );
-
-  interface FormData {
-    email: string;
-    subject: string;
-    message: string;
-  }
-
-  const {
-    register,
-    handleSubmit,
-    setFocus,
-    formState: { errors, isSubmitting },
-  } = useForm<FormData>({
-    resolver: yupResolver(schema),
-    mode: "onSubmit",
-  });
+  const contactFormRef = useRef<ContactFormHandle>(null);
 
   const highlightContactForm = useCallback(() => {
-    setFocus("email");
     setIsFormHighlighted(true);
+    contactFormRef.current?.focus();
     window.scrollTo(0, 200);
-  }, [setFocus]);
-
-  const onSubmit = useCallback(
-    async (data: FormData) => {
-      const encode = (formData: Record<string, string>) => {
-        return Object.keys(formData)
-          .map(
-            (key) =>
-              `${encodeURIComponent(key)}=${encodeURIComponent(formData[key])}`,
-          )
-          .join("&");
-      };
-
-      try {
-        const response = await fetch("/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: encode({
-            "form-name": "Contact Form",
-            ...data,
-          }),
-        });
-
-        if (response.ok) {
-          setIsPostSuccessful(true);
-          showToast(t("email_sent_success"), "success");
-        } else {
-          showToast(t("email_sent_error"));
-        }
-      } catch {
-        showToast(t("email_sent_error"));
-      }
-    },
-    [showToast, t],
-  );
-
-  useEffect(() => {
-    setFocus("email");
-  }, [setFocus]);
+  }, []);
 
   return (
     <Layout>
@@ -185,7 +42,6 @@ const ContactPage = () => {
           "Web Developer Portfolio",
         ]}
       />
-      {Toast}
       <Box
         sx={{
           width: ["90%", "80%", "70%"],
@@ -208,99 +64,16 @@ const ContactPage = () => {
             </Paragraph>
           </Box>
         )}
-        {!isPostSuccessful && (
-          <Grid gap={3} columns={["1fr", "1fr 1fr", "1.5fr 2fr"]}>
-            <Box
-              sx={{
-                border: isFormHighlighted ? "3px solid orange" : "none",
-                borderRadius: 5,
-                p: isFormHighlighted ? 3 : 0,
-              }}
-            >
-              <form
-                action="/contact"
-                name="Contact Form"
-                method="POST"
-                data-netlify="true"
-                id="contact-form"
-              >
-                <Input
-                  variant="primary"
-                  sx={{ mb: 3, bg: "secondary" }}
-                  type="hidden"
-                  name="form-name"
-                  value="Contact Form"
-                />
-                <Box>
-                  <Input
-                    sx={{
-                      mb: 3,
-                      bg: "primary",
-                      color: "secondary",
-                      border: "none",
-                      p: 3,
-                    }}
-                    {...register("email")}
-                    type="text"
-                    placeholder={t("placeholder_email")}
-                  />
-                  {errors.email && (
-                    <Text sx={{ color: "error", mb: 3, display: "block" }}>
-                      {errors.email.message}
-                    </Text>
-                  )}
-                </Box>
-                <Box>
-                  <Input
-                    sx={{
-                      mb: 3,
-                      bg: "primary",
-                      color: "secondary",
-                      border: "none",
-                      p: 3,
-                    }}
-                    {...register("subject")}
-                    type="text"
-                    placeholder={t("placeholder_subject")}
-                  />
-                  {errors.subject && (
-                    <Text sx={{ color: "error", mb: 3, display: "block" }}>
-                      {errors.subject.message}
-                    </Text>
-                  )}
-                </Box>
-                <Box>
-                  <Textarea
-                    sx={{
-                      mb: 3,
-                      bg: "primary",
-                      color: "secondary",
-                      border: "none",
-                      p: 3,
-                      fontFamily: "roboto",
-                      minHeight: "300px",
-                      resize: "vertical",
-                    }}
-                    {...register("message")}
-                    placeholder={t("placeholder_message")}
-                  />
-                  {errors.message && (
-                    <Text sx={{ color: "error", mb: 3, display: "block" }}>
-                      {errors.message.message}
-                    </Text>
-                  )}
-                </Box>
-                <Button
-                  sx={{ flexShrink: 0 }}
-                  variant="primary"
-                  onClick={handleSubmit(onSubmit)}
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? t("button_sending") : t("button_send")}
-                </Button>
-              </form>
-            </Box>
+        <Grid
+          gap={3}
+          columns={isPostSuccessful ? ["1fr"] : ["1fr", "1fr 1fr", "1.5fr 2fr"]}
+        >
+          <ContactForm
+            ref={contactFormRef}
+            isHighlighted={isFormHighlighted}
+            onSuccess={() => setIsPostSuccessful(true)}
+          />
+          {!isPostSuccessful && (
             <Box sx={{ mb: 3 }}>
               <Paragraph>
                 {t("sidebar_text_1")}
@@ -366,9 +139,8 @@ const ContactPage = () => {
                 {t("check_out_work_suffix")}
               </Paragraph>
             </Box>
-          </Grid>
-        )}
-        {isPostSuccessful && <SubmitSuccess showToast={showToast} t={t} />}
+          )}
+        </Grid>
       </Box>
     </Layout>
   );

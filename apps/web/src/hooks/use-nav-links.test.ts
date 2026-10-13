@@ -1,4 +1,4 @@
-import { renderHook } from "@testing-library/react";
+import { renderHook } from "../test-utils";
 import { useNavLinks } from "./use-nav-links";
 
 jest.mock("gatsby-plugin-react-i18next", () => ({

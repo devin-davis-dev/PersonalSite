@@ -1,15 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "../../test-utils";
 import { ProjectSection } from "./ProjectSection";
 
-jest.mock("gatsby-plugin-image", () => ({
-  getImage: jest.fn((image: any) => image),
-  // biome-ignore lint/a11y/useAltText: mock for test
-  GatsbyImage: jest.fn(({ alt, ...props }: any) => (
-    <img alt={alt} {...props} />
-  )),
-}));
-
-// TODO need to find out how to mock the image alignment
 describe("ProjectSection", () => {
   const mockProject = {
     image1: "test-image-1.jpg",
