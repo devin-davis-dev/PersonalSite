@@ -1,4 +1,8 @@
 {
   "page_title": "Blog",
-  "page_description": "I'm on a lifelong journey of learning and I love to share what I learn with others. When I get the chance I like to write about what I'm learning. This is an archive of my blog posts. Feel free to take a gander!"
+  "page_description": "I'm on a lifelong journey of learning and I love to share what I learn with others. When I get the chance I like to write about what I'm learning. This is an archive of my blog posts. Feel free to take a gander!",
+  "category_title": "{{category}} Posts",
+  "category_description": "Explore articles, tutorials, and insights about {{category}}.",
+  "no_posts": "Nothing here for now... check in later!",
+  "back_to_blog": "Go Back"
 }

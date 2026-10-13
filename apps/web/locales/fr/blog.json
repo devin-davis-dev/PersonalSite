@@ -1,4 +1,8 @@
 {
   "page_title": "Blog",
-  "page_description": "Je suis dans un voyage d'apprentissage permanent et j'adore partager ce que j'apprends avec les autres. Quand j'en ai l'occasion, j'aime écrire sur ce que j'apprends. Ceci est une archive de mes articles de blog. N'hésitez pas à y jeter un coup d'œil !"
+  "page_description": "Je suis dans un voyage d'apprentissage permanent et j'adore partager ce que j'apprends avec les autres. Quand j'en ai l'occasion, j'aime écrire sur ce que j'apprends. Ceci est une archive de mes articles de blog. N'hésitez pas à y jeter un coup d'œil !",
+  "category_title": "Articles sur {{category}}",
+  "category_description": "Découvrez des articles, des tutoriels et des réflexions sur {{category}}.",
+  "no_posts": "Rien ici pour le moment... revenez plus tard !",
+  "back_to_blog": "Retour"
 }

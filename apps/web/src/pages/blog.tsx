@@ -1,4 +1,5 @@
 import { type PageProps, graphql } from "gatsby";
+import { useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Flex, Grid, Heading, Text } from "theme-ui";
 
 import PostCategoryCard from "../components/PostCategoryCard/PostCategoryCard";
@@ -14,22 +15,18 @@ interface BlogPageData {
 
 const BlogPage = ({ data }: PageProps<BlogPageData>) => {
   const categories = data.allMdx.distinct;
+  const { t } = useTranslation("blog");
 
   return (
     <Layout>
-      <Seo title="Blog" />
+      <Seo title={t("page_title")} />
       <PageContentWrapper>
         <Flex sx={{ mb: 5 }}>
           <Box>
             <Heading as="h1" variant="hero">
-              Blog
+              {t("page_title")}
             </Heading>
-            <Text variant="large">
-              I'm on a lifelong journey of learning and I love to share what I
-              learn with others. When I get the chance I like to write about
-              what I'm learning. This is an archive of my blog posts. Feel free
-              to take a gander!
-            </Text>
+            <Text variant="large">{t("page_description")}</Text>
           </Box>
         </Flex>
         <Grid
@@ -43,7 +40,7 @@ const BlogPage = ({ data }: PageProps<BlogPageData>) => {
             <PostCategoryCard
               key={category}
               title={category.split("-").map((w) => {
-                return `${w.charAt(0).toUpperCase() + w.slice(1)} `;
+                return `${w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()} `;
               })}
               link={category}
             />
@@ -66,7 +63,7 @@ export const pageQuery = graphql`
     }
 
     locales: allLocale(
-      filter: { ns: { in: ["common"] }, language: { eq: $language } }
+      filter: { ns: { in: ["common", "blog"] }, language: { eq: $language } }
     ) {
       edges {
         node {

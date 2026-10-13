@@ -1,10 +1,11 @@
 import { type PageProps, graphql } from "gatsby";
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Button, Grid, Heading, Text } from "theme-ui";
 
 import PostCard from "../components/PostCard/PostCard";
 import Seo from "../components/Seo/Seo";
 import Layout from "../components/app/Layout";
+import PageContentWrapper from "../layouts/PageWrapper";
 import type { BlogPost } from "../types";
 
 interface CategoryPageData {
@@ -26,22 +27,41 @@ interface CategoryPageData {
   };
 }
 
-const CategoryPage = ({ data }: PageProps<CategoryPageData>) => {
+interface CategoryPageContext {
+  category: string;
+}
+
+const CategoryPage = ({
+  data,
+  pageContext,
+}: PageProps<CategoryPageData, CategoryPageContext>) => {
   const pageData = data.allMdx.edges;
-  const postCategory = pageData[0]?.node.frontmatter.category || "";
+  const postCategory =
+    pageContext?.category || pageData[0]?.node.frontmatter.category || "";
+  const { t } = useTranslation("blog");
+
+  const formattedCategory = postCategory
+    ? postCategory
+        .split("-")
+        .map(
+          (w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase(),
+        )
+        .join(" ")
+    : "";
 
   return (
     <Layout>
       <Seo
-        title={postCategory}
+        title={t("category_title", { category: formattedCategory })}
+        description={t("category_description", { category: formattedCategory })}
         keywords={[
           "Devin Davis",
           "Category Posts",
           "Web Development Blog",
-          `${postCategory} Tutorials`,
-          `${postCategory} Insights`,
-          `${postCategory} Articles`,
-          `Latest ${postCategory} Updates`,
+          `${formattedCategory} Tutorials`,
+          `${formattedCategory} Insights`,
+          `${formattedCategory} Articles`,
+          `Latest ${formattedCategory} Updates`,
           "Web Developer Blog",
           "Tech Tutorials",
           "Coding Insights",
@@ -52,25 +72,13 @@ const CategoryPage = ({ data }: PageProps<CategoryPageData>) => {
           "Developer Resources",
         ]}
       />
-      <Box
-        sx={{
-          margin: "0 auto",
-          width: ["90%", "80%", "70%"],
-          my: 6,
-        }}
-      >
-        <Box sx={{ mt: 6, mb: 5 }}>
-          <Heading as="h1" variant="hero">
-            {postCategory
-              .split("-")
-              .map(
-                (w: string) =>
-                  `${w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()} `,
-              )}
-            Posts
-          </Heading>
-          <Text variant="large" sx={{ textAlign: "center" }} />
-        </Box>
+      <PageContentWrapper>
+        <Heading as="h1" variant="hero">
+          {t("category_title", { category: formattedCategory })}
+        </Heading>
+        <Text variant="large" sx={{ my: 3, display: "block" }}>
+          {t("category_description", { category: formattedCategory })}
+        </Text>
         <Grid
           sx={{
             mb: 6,
@@ -95,14 +103,16 @@ const CategoryPage = ({ data }: PageProps<CategoryPageData>) => {
             })
           ) : (
             <Box sx={{ height: "80vh" }}>
-              <h1 sx={{ mb: 3 }}>Nothing here for now... check in later!</h1>
+              <Heading as="h2" sx={{ mb: 3 }}>
+                {t("no_posts")}
+              </Heading>
               <Link to="/blog">
-                <Button>Go Back</Button>
+                <Button>{t("back_to_blog")}</Button>
               </Link>
             </Box>
           )}
         </Grid>
-      </Box>
+      </PageContentWrapper>
     </Layout>
   );
 };
@@ -137,7 +147,7 @@ export const pageQuery = graphql`
     }
 
     locales: allLocale(
-      filter: { ns: { in: ["common"] }, language: { eq: $language } }
+      filter: { ns: { in: ["common", "blog"] }, language: { eq: $language } }
     ) {
       edges {
         node {
