@@ -84,6 +84,15 @@ const theme: Theme & Record<string, any> = {
     code: {
       ...nightOwl,
     },
+    inlineCode: {
+      fontFamily: "monospace",
+      fontSize: "0.875em",
+      color: "primary",
+      bg: "secondary",
+      px: "0.35em",
+      py: "0.15em",
+      borderRadius: "4px",
+    },
     root: {
       fontFamily: "body",
       lineHeight: "body",

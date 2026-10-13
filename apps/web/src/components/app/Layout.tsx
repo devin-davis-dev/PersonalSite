@@ -13,8 +13,35 @@ import "../../css/reset.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
 const components: Record<string, any> = {
-  pre: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-  code: Prism,
+  pre: (props: any) => {
+    if (
+      props.children &&
+      typeof props.children === "object" &&
+      "props" in props.children
+    ) {
+      return <Prism {...props.children.props} />;
+    }
+    return <Prism {...props} />;
+  },
+  code: (props: any) => {
+    if (props.className && /language-/.test(props.className)) {
+      return <Prism {...props} />;
+    }
+    return (
+      <code
+        sx={{
+          fontFamily: "monospace",
+          fontSize: "0.875em",
+          color: "primary",
+          bg: "secondary",
+          px: "0.35em",
+          py: "0.15em",
+          borderRadius: "4px",
+        }}
+        {...props}
+      />
+    );
+  },
 };
 
 interface LayoutProps {
