@@ -1,6 +1,11 @@
+import {
+  faArrowUpRightFromSquare,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby-plugin-react-i18next";
-import { Box, Flex, Link as ThemeLink } from "theme-ui";
+import { Box, Flex, Text, Link as ThemeLink } from "theme-ui";
 import { useNavLinks } from "../../hooks/use-nav-links";
 import ConnectWallet from "../ConnectWallet";
 import { CloseButton } from "./CloseButton";
@@ -67,45 +72,72 @@ const SideNav = ({
         </Flex>
         <Flex
           sx={{
-            mt: 4,
+            mt: 3,
             flexDirection: "column",
-            color: "primary",
-            alignItems: "center",
-            a: { mb: 3 },
+            gap: 1,
+            width: "100%",
           }}
         >
           {navLinks.map((link) => {
-            const commonProps = {
-              sx: {
-                color: "primary",
-                textDecoration: "none",
-                fontSize: 4,
-                fontWeight: "bold",
-                transition: "color 0.2s ease-in-out",
-                "&:hover": {
-                  color: "orange",
-                  textDecoration: "underline",
-                },
+            const rowStyles = {
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              py: "12px",
+              px: "16px",
+              borderRadius: "12px",
+              color: "primary",
+              textDecoration: "none",
+              fontSize: 3,
+              fontWeight: "bold",
+              transition: "all 0.2s ease-in-out",
+              "&:hover, &:active": {
+                bg: "lightOrange",
+                color: "orange",
               },
-              onClick: handleLinkClick,
             };
+
+            const linkContent = (
+              <>
+                <Text as="span">{link.label}</Text>
+                <Icon
+                  icon={
+                    link.external ? faArrowUpRightFromSquare : faChevronRight
+                  }
+                  aria-hidden={true}
+                  sx={{
+                    fontSize: link.external ? "0.875rem" : "0.75rem",
+                    opacity: 0.4,
+                    color: "inherit",
+                    transition: "transform 0.2s ease, opacity 0.2s ease",
+                  }}
+                />
+              </>
+            );
 
             if (link.external) {
               return (
                 <ThemeLink
                   key={link.to}
-                  {...commonProps}
+                  sx={rowStyles}
                   target="_blank"
                   href={link.to}
+                  onClick={handleLinkClick}
                 >
-                  {link.label}
+                  {linkContent}
                 </ThemeLink>
               );
             }
 
             return (
-              <Link key={link.to} {...commonProps} to={link.to}>
-                {link.label}
+              <Link
+                key={link.to}
+                sx={rowStyles}
+                to={link.to}
+                onClick={handleLinkClick}
+              >
+                {linkContent}
               </Link>
             );
           })}
