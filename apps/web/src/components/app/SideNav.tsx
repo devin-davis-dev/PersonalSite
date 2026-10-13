@@ -2,7 +2,6 @@ import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby-plugin-react-i18next";
 import { Box, Flex, Link as ThemeLink } from "theme-ui";
 import { useNavLinks } from "../../hooks/use-nav-links";
-import BuildStatus from "../BuildStatus/BuildStatus";
 import ConnectWallet from "../ConnectWallet";
 import { CloseButton } from "./CloseButton";
 
@@ -31,7 +30,7 @@ const SideNav = ({
         zIndex: "1000000",
         width: "100%",
         top: "0px",
-        bg: "#ffffff",
+        bg: "white",
         justifyContent: "flex-start",
         alignItems: "center",
         flexDirection: "column",
@@ -114,7 +113,6 @@ const SideNav = ({
         <Flex sx={{ justifyContent: "center", mb: 3 }}>
           <ConnectWallet isScrolledTop={false} />
         </Flex>
-        <BuildStatus isScrolledTop={false} sx={{ justifyContent: "center" }} />
       </Box>
     </Flex>
   );

@@ -10,6 +10,7 @@ import type React from "react";
 import { useColorMode } from "theme-ui";
 import { WagmiProvider } from "wagmi";
 import { queryClient, wagmiConfig } from "../../config/wagmi";
+import { colors } from "../../theme/theme";
 import ClientOnly from "../ClientOnly";
 
 interface Web3ProviderProps {
@@ -31,14 +32,14 @@ const Web3ProviderClient: React.FC<Web3ProviderProps> = ({ children }) => {
           theme={
             isDark
               ? darkTheme({
-                  accentColor: "#FFA630",
-                  accentColorForeground: "#1A1A1A",
+                  accentColor: colors.orange,
+                  accentColorForeground: colors.primary,
                   borderRadius: "medium",
                   overlayBlur: "small",
                 })
               : lightTheme({
-                  accentColor: "#FFA630",
-                  accentColorForeground: "#1A1A1A",
+                  accentColor: colors.orange,
+                  accentColorForeground: colors.primary,
                   borderRadius: "medium",
                   overlayBlur: "small",
                 })

@@ -8,7 +8,6 @@ import {
   type ThemeUIStyleObject,
 } from "theme-ui";
 import { useNavLinks } from "../../hooks/use-nav-links";
-import BuildStatus from "../BuildStatus/BuildStatus";
 import ConnectWallet from "../ConnectWallet";
 import SideNav from "./SideNav";
 
@@ -58,7 +57,7 @@ const Navbar = () => {
 
   const navLinkStyle: ThemeUIStyleObject = {
     mr: 3,
-    color: !isScrolledTop ? "#30362F" : "white",
+    color: !isScrolledTop ? "primary" : "white",
     textDecoration: "none",
     fontWeight: "bold",
     transition: "color 0.2s ease-in-out",
@@ -145,32 +144,23 @@ const Navbar = () => {
               <div
                 sx={{
                   ...hamburderPatty,
-                  backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
+                  backgroundColor: isScrolledTop ? "white" : "primary",
                 }}
               />
               <div
                 sx={{
                   ...hamburderPatty,
-                  backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
+                  backgroundColor: isScrolledTop ? "white" : "primary",
                 }}
               />
               <div
                 sx={{
                   ...hamburderPatty,
-                  backgroundColor: isScrolledTop ? "#ffffff" : "#30362F",
+                  backgroundColor: isScrolledTop ? "white" : "primary",
                 }}
               />
             </Box>
-            <Flex
-              sx={{
-                display: ["none", "none", "none", "flex"],
-                alignItems: "center",
-                color: "white",
-              }}
-            >
-              <BuildStatus isScrolledTop={isScrolledTop} sx={{ mr: 3 }} />
-              <ConnectWallet isScrolledTop={isScrolledTop} />
-            </Flex>
+            <ConnectWallet isScrolledTop={isScrolledTop} />
           </Flex>
         </Box>
       </Flex>

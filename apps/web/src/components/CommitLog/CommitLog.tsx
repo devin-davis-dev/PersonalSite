@@ -7,6 +7,7 @@ import {
   Text,
   type ThemeUIStyleObject,
 } from "theme-ui";
+import { colors } from "../../theme/theme";
 import type { Commit } from "../../types";
 
 function timeAgo(dateString: string): string {
@@ -40,7 +41,7 @@ const wrapperStyles: ThemeUIStyleObject = {
   flexShrink: 0,
   overflowY: "auto",
   scrollbarWidth: "thin",
-  scrollbarColor: "#FFA630 rgba(255,255,255,0.1)",
+  scrollbarColor: `${colors.orange} rgba(255,255,255,0.1)`,
   "&::-webkit-scrollbar": {
     width: "6px",
   },

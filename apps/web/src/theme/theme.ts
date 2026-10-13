@@ -2,17 +2,21 @@ import { tailwind } from "@theme-ui/presets";
 import nightOwl from "@theme-ui/prism/presets/night-owl.json";
 import type { Theme } from "theme-ui";
 
+export const colors = {
+  primary: "#292E29",
+  darkOrange: "#9C4A00",
+  secondary: "#eeeeee",
+  orange: "#FFA630",
+  lightOrange: "#FFA63050",
+  white: "#f5f5f5",
+  blue: "#2A5F6A",
+  success: "#4CAF50",
+  error: "#E53E3E",
+};
+
 const theme: Theme & Record<string, any> = {
   ...tailwind,
-  colors: {
-    primary: "#292E29",
-    darkOrange: "#9C4A00",
-    secondary: "#eeeeee",
-    orange: "#FFA630",
-    lightOrange: "#FFA63050",
-    white: "#f5f5f5",
-    blue: "#2A5F6A",
-  },
+  colors,
   fonts: {
     body: "'Raleway', sans-serif",
     heading: "'Raleway', sans-serif",

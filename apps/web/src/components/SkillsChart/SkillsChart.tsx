@@ -9,6 +9,7 @@ import {
   YAxis,
 } from "recharts";
 import { Box, Text } from "theme-ui";
+import { colors } from "../../theme/theme";
 import type { Technology } from "../../types";
 
 const CustomTooltip = ({ active, payload }: any) => {
@@ -87,7 +88,7 @@ const SkillsChart = ({ technologies, maxItems = 10 }: SkillsChartProps) => {
           {data.map((entry, index) => (
             <Cell
               key={entry.name}
-              fill={activeIndex === index ? "#FFA630" : "#eeeeee"}
+              fill={activeIndex === index ? colors.orange : colors.secondary}
               opacity={activeIndex !== null && activeIndex !== index ? 0.35 : 1}
             />
           ))}

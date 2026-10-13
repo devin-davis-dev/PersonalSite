@@ -245,7 +245,7 @@ const ContactPage = () => {
                     placeholder={t("placeholder_email")}
                   />
                   {errors.email && (
-                    <Text sx={{ color: "red", mb: 3, display: "block" }}>
+                    <Text sx={{ color: "error", mb: 3, display: "block" }}>
                       {errors.email.message}
                     </Text>
                   )}
@@ -264,7 +264,7 @@ const ContactPage = () => {
                     placeholder={t("placeholder_subject")}
                   />
                   {errors.subject && (
-                    <Text sx={{ color: "red", mb: 3, display: "block" }}>
+                    <Text sx={{ color: "error", mb: 3, display: "block" }}>
                       {errors.subject.message}
                     </Text>
                   )}
@@ -285,7 +285,7 @@ const ContactPage = () => {
                     placeholder={t("placeholder_message")}
                   />
                   {errors.message && (
-                    <Text sx={{ color: "red", mb: 3, display: "block" }}>
+                    <Text sx={{ color: "error", mb: 3, display: "block" }}>
                       {errors.message.message}
                     </Text>
                   )}
