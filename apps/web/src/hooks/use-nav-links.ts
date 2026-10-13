@@ -7,21 +7,21 @@ export interface NavLinkItem {
   external?: boolean;
 }
 
+export {
+  useExternalNavLinks,
+  type ExternalNavLinkItem,
+} from "./use-external-nav-links";
+
 export const useNavLinks = (): NavLinkItem[] => {
   const { t } = useTranslation("common");
 
   return useMemo(
     () => [
-      { to: "/blog", label: t("nav_blog") },
-      { to: "/projects", label: t("nav_projects") },
-      { to: "/about", label: t("nav_about") },
       { to: "/contact", label: t("nav_contact") },
+      { to: "/about", label: t("nav_about") },
+      { to: "/projects", label: t("nav_projects") },
+      { to: "/blog", label: t("nav_blog") },
       { to: "/climbing", label: t("nav_climbing") },
-      {
-        to: "https://www.linkedin.com/in/devin-dev-d-63008412b",
-        label: "LinkedIn",
-        external: true,
-      },
     ],
     [t],
   );

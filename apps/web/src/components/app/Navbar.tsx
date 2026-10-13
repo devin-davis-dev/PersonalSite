@@ -1,3 +1,4 @@
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby-plugin-react-i18next";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
@@ -7,7 +8,7 @@ import {
   Link as ThemeLink,
   type ThemeUIStyleObject,
 } from "theme-ui";
-import { useNavLinks } from "../../hooks/use-nav-links";
+import { useExternalNavLinks, useNavLinks } from "../../hooks/use-nav-links";
 import ConnectWallet from "../ConnectWallet";
 import SideNav from "./SideNav";
 
@@ -16,6 +17,7 @@ const Navbar = () => {
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const navLinks = useNavLinks();
+  const externalNavLinks = useExternalNavLinks();
 
   const styleNavBar = useCallback(() => {
     if (scrollTimeoutRef.current) {
@@ -105,30 +107,35 @@ const Navbar = () => {
                 color: "white",
               }}
             >
-              {navLinks.map((link, index) => {
-                const isLast = index === navLinks.length - 1;
-                const sx = {
-                  ...navLinkStyle,
-                  mr: isLast ? 0 : 3,
-                };
-
-                if (link.external) {
-                  return (
-                    <ThemeLink
-                      key={link.to}
-                      sx={sx}
-                      target="_blank"
-                      href={link.to}
-                    >
-                      {link.label}
-                    </ThemeLink>
-                  );
-                }
-
+              {navLinks.map((link) => (
+                <Link key={link.to} to={link.to} sx={navLinkStyle}>
+                  {link.label}
+                </Link>
+              ))}
+              {externalNavLinks.map((link, index) => {
+                const isLast = index === externalNavLinks.length - 1;
                 return (
-                  <Link key={link.to} to={link.to} sx={sx}>
+                  <ThemeLink
+                    key={link.to}
+                    sx={{
+                      ...navLinkStyle,
+                      mr: isLast ? 0 : 3,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                    target="_blank"
+                    href={link.to}
+                  >
+                    {link.icon && (
+                      <Icon
+                        icon={link.icon}
+                        aria-hidden={true}
+                        sx={{ fontSize: "1em" }}
+                      />
+                    )}
                     {link.label}
-                  </Link>
+                  </ThemeLink>
                 );
               })}
             </Flex>

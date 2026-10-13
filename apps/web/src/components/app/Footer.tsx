@@ -1,4 +1,3 @@
-import { faInstagram, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import {
@@ -9,10 +8,38 @@ import {
   Heading,
   Text,
   Link as ThemeLink,
+  type ThemeUIStyleObject,
 } from "theme-ui";
+import { useExternalNavLinks, useNavLinks } from "../../hooks/use-nav-links";
+
+const footerLinkStyle: ThemeUIStyleObject = {
+  mb: 2,
+  width: "max-content",
+  display: "inline-flex",
+  alignItems: "center",
+  fontSize: 1,
+  lineHeight: "body",
+  color: "white",
+  textDecoration: "none",
+  transition: "color 0.2s ease-in-out",
+  "&:visited": {
+    color: "white",
+  },
+  "&:hover": {
+    color: "orange",
+    textDecoration: "underline",
+  },
+  svg: {
+    fontSize: "1.2em",
+    mr: 1,
+  },
+};
 
 const Footer = () => {
   const { t } = useTranslation("common");
+  const navLinks = useNavLinks();
+  const externalNavLinks = useExternalNavLinks();
+
   return (
     <footer>
       <Grid sx={{ bg: "primary", py: 4 }} columns={[1, null, 3]}>
@@ -38,30 +65,17 @@ const Footer = () => {
             {t("footer_media_title")}
           </Heading>
           <Flex sx={{ flexDirection: "column", alignItems: "center" }}>
-            <ThemeLink
-              target="_blank"
-              href="https://www.linkedin.com/in/devin-dev-d-63008412b"
-              sx={{ mb: 2, width: "max-content", svg: { fontSize: "1.2em" } }}
-              variant="footer"
-            >
-              <Icon icon={faLinkedin} />
-              <Text sx={{ color: "white", ml: 1 }} variant="small">
-                {" "}
-                LinkedIn
-              </Text>
-            </ThemeLink>
-            <ThemeLink
-              target="_blank"
-              href="https://www.instagram.com/devindavis732/"
-              sx={{ mb: 2, width: "max-content", svg: { fontSize: "1.2em" } }}
-              variant="footer"
-            >
-              <Icon icon={faInstagram} />
-              <Text sx={{ color: "white", ml: 1 }} variant="small">
-                {" "}
-                Instagram
-              </Text>
-            </ThemeLink>
+            {externalNavLinks.map((link) => (
+              <ThemeLink
+                key={link.to}
+                target="_blank"
+                href={link.to}
+                sx={footerLinkStyle}
+              >
+                {link.icon && <Icon icon={link.icon} aria-hidden={true} />}
+                <span>{link.label}</span>
+              </ThemeLink>
+            ))}
           </Flex>
         </Box>
         <Box sx={{ textAlign: "center" }}>
@@ -72,76 +86,14 @@ const Footer = () => {
             {t("footer_nav_title")}
           </Heading>
           <Flex as="nav" sx={{ flexDirection: "column", alignItems: "center" }}>
-            <Link
-              to="/"
-              sx={{
-                mb: 2,
-                width: "max-content",
-                color: "white",
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
+            <Link to="/" sx={footerLinkStyle}>
               {t("nav_home")}
             </Link>
-            <Link
-              to="/contact"
-              sx={{
-                mb: 2,
-                width: "max-content",
-                color: "white",
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {t("nav_contact")}
-            </Link>
-            <Link
-              to="/projects"
-              sx={{
-                mb: 2,
-                width: "max-content",
-                color: "white",
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {t("nav_projects")}
-            </Link>
-            <Link
-              to="/about"
-              sx={{
-                mb: 2,
-                width: "max-content",
-                color: "white",
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {t("nav_about")}
-            </Link>
-            <Link
-              to="/climbing"
-              sx={{
-                mb: 2,
-                width: "max-content",
-                color: "white",
-                textDecoration: "none",
-                "&:hover": {
-                  textDecoration: "underline",
-                },
-              }}
-            >
-              {t("nav_climbing")}
-            </Link>
+            {navLinks.map((link) => (
+              <Link key={link.to} to={link.to} sx={footerLinkStyle}>
+                {link.label}
+              </Link>
+            ))}
           </Flex>
         </Box>
       </Grid>

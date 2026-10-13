@@ -174,10 +174,10 @@ const theme: Theme & Record<string, any> = {
         color: "orange",
       },
       "&:visited": {
-        color: "#FFA63050",
+        color: "white",
       },
       "&:hover": {
-        color: "#E07A5F",
+        color: "orange",
         textDecoration: "underline",
       },
       "&:focus": {

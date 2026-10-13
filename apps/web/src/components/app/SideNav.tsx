@@ -6,7 +6,7 @@ import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby-plugin-react-i18next";
 import { Box, Flex, Text, Link as ThemeLink } from "theme-ui";
-import { useNavLinks } from "../../hooks/use-nav-links";
+import { useExternalNavLinks, useNavLinks } from "../../hooks/use-nav-links";
 import ConnectWallet from "../ConnectWallet";
 import { CloseButton } from "./CloseButton";
 
@@ -22,9 +22,29 @@ const SideNav = ({
   enableScrollFunc,
 }: SideNavProps) => {
   const navLinks = useNavLinks();
+  const externalNavLinks = useExternalNavLinks();
   const handleLinkClick = () => {
     setSideNavOpen(false);
     enableScrollFunc();
+  };
+
+  const rowStyles = {
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    py: "12px",
+    px: "16px",
+    borderRadius: "12px",
+    color: "primary",
+    textDecoration: "none",
+    fontSize: 3,
+    fontWeight: "bold",
+    transition: "all 0.2s ease-in-out",
+    "&:hover, &:active": {
+      bg: "lightOrange",
+      color: "orange",
+    },
   };
 
   return (
@@ -81,69 +101,56 @@ const SideNav = ({
             width: "100%",
           }}
         >
-          {navLinks.map((link) => {
-            const rowStyles = {
-              display: "flex",
-              width: "100%",
-              justifyContent: "space-between",
-              alignItems: "center",
-              py: "12px",
-              px: "16px",
-              borderRadius: "12px",
-              color: "primary",
-              textDecoration: "none",
-              fontSize: 3,
-              fontWeight: "bold",
-              transition: "all 0.2s ease-in-out",
-              "&:hover, &:active": {
-                bg: "lightOrange",
-                color: "orange",
-              },
-            };
-
-            const linkContent = (
-              <>
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              sx={rowStyles}
+              to={link.to}
+              onClick={handleLinkClick}
+            >
+              <Text as="span">{link.label}</Text>
+              <Icon
+                icon={faChevronRight}
+                aria-hidden={true}
+                sx={{
+                  fontSize: "0.75rem",
+                  opacity: 0.4,
+                  color: "inherit",
+                  transition: "transform 0.2s ease, opacity 0.2s ease",
+                }}
+              />
+            </Link>
+          ))}
+          {externalNavLinks.map((link) => (
+            <ThemeLink
+              key={link.to}
+              sx={rowStyles}
+              target="_blank"
+              href={link.to}
+              onClick={handleLinkClick}
+            >
+              <Flex sx={{ alignItems: "center", gap: 2 }}>
+                {link.icon && (
+                  <Icon
+                    icon={link.icon}
+                    aria-hidden={true}
+                    sx={{ fontSize: "1rem" }}
+                  />
+                )}
                 <Text as="span">{link.label}</Text>
-                <Icon
-                  icon={
-                    link.external ? faArrowUpRightFromSquare : faChevronRight
-                  }
-                  aria-hidden={true}
-                  sx={{
-                    fontSize: link.external ? "0.875rem" : "0.75rem",
-                    opacity: 0.4,
-                    color: "inherit",
-                    transition: "transform 0.2s ease, opacity 0.2s ease",
-                  }}
-                />
-              </>
-            );
-
-            if (link.external) {
-              return (
-                <ThemeLink
-                  key={link.to}
-                  sx={rowStyles}
-                  target="_blank"
-                  href={link.to}
-                  onClick={handleLinkClick}
-                >
-                  {linkContent}
-                </ThemeLink>
-              );
-            }
-
-            return (
-              <Link
-                key={link.to}
-                sx={rowStyles}
-                to={link.to}
-                onClick={handleLinkClick}
-              >
-                {linkContent}
-              </Link>
-            );
-          })}
+              </Flex>
+              <Icon
+                icon={faArrowUpRightFromSquare}
+                aria-hidden={true}
+                sx={{
+                  fontSize: "0.875rem",
+                  opacity: 0.4,
+                  color: "inherit",
+                  transition: "transform 0.2s ease, opacity 0.2s ease",
+                }}
+              />
+            </ThemeLink>
+          ))}
         </Flex>
         <Flex sx={{ justifyContent: "center", mt: 4, mb: 3 }}>
           <ConnectWallet isScrolledTop={false} size="large" />
