@@ -22,6 +22,12 @@ export interface ConnectWalletProps {
    * Defaults to true.
    */
   isScrolledTop?: boolean;
+  /**
+   * Size variant for the button.
+   * "compact" (default) is suited for desktop headers.
+   * "large" provides a larger, touch-friendly target for mobile menus.
+   */
+  size?: "compact" | "large";
 }
 
 const getNavTextColor = (isScrolledTop: boolean) =>
@@ -66,14 +72,17 @@ const loadingPlaceholderStyle: ThemeUIStyleObject = {
 
 interface DisconnectedButtonProps {
   isScrolledTop: boolean;
+  size: "compact" | "large";
   onClick: () => void;
 }
 
 const DisconnectedButton: React.FC<DisconnectedButtonProps> = ({
   isScrolledTop,
+  size,
   onClick,
 }) => {
   const { t } = useTranslation("common");
+  const isLarge = size === "large";
 
   return (
     <Button
@@ -82,13 +91,15 @@ const DisconnectedButton: React.FC<DisconnectedButtonProps> = ({
       onClick={onClick}
       sx={{
         ...pillBaseStyle,
-        gap: "6px",
-        fontSize: "0.8125rem",
+        borderRadius: isLarge ? "24px" : "20px",
+        gap: isLarge ? "8px" : "6px",
+        fontSize: isLarge ? ["0.9375rem", "1rem"] : "0.8125rem",
         color: getNavTextColor(isScrolledTop),
         borderColor: isScrolledTop ? "white" : "primary",
         opacity: 0.85,
-        px: "12px",
-        py: "4px",
+        px: isLarge ? "20px" : "12px",
+        py: isLarge ? "10px" : "4px",
+        minHeight: isLarge ? "44px" : "28px",
         "&:hover": {
           opacity: 1,
           borderColor: "orange",
@@ -106,7 +117,7 @@ const DisconnectedButton: React.FC<DisconnectedButtonProps> = ({
       <Text
         as="span"
         sx={{
-          fontSize: "0.8125rem",
+          fontSize: isLarge ? "1rem" : "0.8125rem",
           lineHeight: 1,
           color: "orange",
           opacity: 0.9,
@@ -120,11 +131,16 @@ const DisconnectedButton: React.FC<DisconnectedButtonProps> = ({
 };
 
 interface WrongNetworkButtonProps {
+  size: "compact" | "large";
   onClick: () => void;
 }
 
-const WrongNetworkButton: React.FC<WrongNetworkButtonProps> = ({ onClick }) => {
+const WrongNetworkButton: React.FC<WrongNetworkButtonProps> = ({
+  size,
+  onClick,
+}) => {
   const { t } = useTranslation("common");
+  const isLarge = size === "large";
 
   return (
     <Button
@@ -133,12 +149,14 @@ const WrongNetworkButton: React.FC<WrongNetworkButtonProps> = ({ onClick }) => {
       onClick={onClick}
       sx={{
         ...pillBaseStyle,
-        gap: "5px",
-        fontSize: "0.75rem",
+        borderRadius: isLarge ? "24px" : "20px",
+        gap: isLarge ? "8px" : "5px",
+        fontSize: isLarge ? ["0.9375rem", "1rem"] : "0.75rem",
         color: "error",
         borderColor: "error",
-        px: "10px",
-        py: "4px",
+        px: isLarge ? "20px" : "10px",
+        py: isLarge ? "10px" : "4px",
+        minHeight: isLarge ? "44px" : "28px",
         opacity: 0.9,
         "&:hover": {
           opacity: 1,
@@ -148,7 +166,10 @@ const WrongNetworkButton: React.FC<WrongNetworkButtonProps> = ({ onClick }) => {
         },
       }}
     >
-      <Text as="span" sx={{ fontSize: "0.75rem" }}>
+      <Text
+        as="span"
+        sx={{ fontSize: isLarge ? "1rem" : "0.75rem", fontWeight: "bold" }}
+      >
         !
       </Text>
       <Text as="span">{t("wallet_wrong_network")}</Text>
@@ -161,6 +182,7 @@ interface ConnectedBadgeProps {
   account: { displayName: string; displayBalance?: string };
   showBalance: boolean;
   isScrolledTop: boolean;
+  size: "compact" | "large";
   onOpenChain: () => void;
   onOpenAccount: () => void;
 }
@@ -170,16 +192,18 @@ const ConnectedBadge: React.FC<ConnectedBadgeProps> = ({
   account,
   showBalance,
   isScrolledTop,
+  size,
   onOpenChain,
   onOpenAccount,
 }) => {
   const textColor = getNavTextColor(isScrolledTop);
+  const isLarge = size === "large";
 
   return (
     <Flex
       sx={{
         alignItems: "center",
-        borderRadius: "20px",
+        borderRadius: isLarge ? "24px" : "20px",
         border: "1px solid",
         borderColor: isScrolledTop ? "white" : "primary",
         opacity: 0.9,
@@ -198,8 +222,12 @@ const ConnectedBadge: React.FC<ConnectedBadgeProps> = ({
         onClick={onOpenChain}
         sx={{
           ...segmentBaseStyle,
+          fontSize: isLarge ? ["0.875rem", "0.9375rem"] : "0.75rem",
+          px: isLarge ? "16px" : "9px",
+          py: isLarge ? "10px" : "4px",
+          minHeight: isLarge ? "44px" : "28px",
           color: textColor,
-          borderRadius: "20px 0 0 20px",
+          borderRadius: isLarge ? "24px 0 0 24px" : "20px 0 0 20px",
           borderRight: "1px solid",
           borderRightColor: isScrolledTop ? "white" : "primary",
           fontWeight: "600",
@@ -211,14 +239,16 @@ const ConnectedBadge: React.FC<ConnectedBadgeProps> = ({
       >
         <Box
           sx={{
-            width: "6px",
-            height: "6px",
+            width: isLarge ? "8px" : "6px",
+            height: isLarge ? "8px" : "6px",
             borderRadius: "50%",
             bg: chain.id === 31337 ? "orange" : "success",
           }}
         />
         <Text>{chain.name}</Text>
-        <Text sx={{ fontSize: "0.6rem", opacity: 0.6 }}>▾</Text>
+        <Text sx={{ fontSize: isLarge ? "0.75rem" : "0.6rem", opacity: 0.6 }}>
+          ▾
+        </Text>
       </Button>
 
       {/* Account Segment */}
@@ -228,8 +258,12 @@ const ConnectedBadge: React.FC<ConnectedBadgeProps> = ({
         onClick={onOpenAccount}
         sx={{
           ...segmentBaseStyle,
+          fontSize: isLarge ? ["0.875rem", "0.9375rem"] : "0.75rem",
+          px: isLarge ? "16px" : "9px",
+          py: isLarge ? "10px" : "4px",
+          minHeight: isLarge ? "44px" : "28px",
           color: textColor,
-          borderRadius: "0 20px 20px 0",
+          borderRadius: isLarge ? "0 24px 24px 0" : "0 20px 20px 0",
           fontFamily: "monospace",
           fontWeight: "bold",
           "&:hover": {
@@ -244,7 +278,7 @@ const ConnectedBadge: React.FC<ConnectedBadgeProps> = ({
           <Text
             sx={{
               opacity: 0.7,
-              fontSize: "0.7rem",
+              fontSize: isLarge ? "0.8125rem" : "0.7rem",
               fontFamily: "body",
               fontWeight: "normal",
             }}
@@ -262,6 +296,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
   className,
   showBalance = false,
   isScrolledTop = true,
+  size = "compact",
 }) => {
   return (
     <Box
@@ -270,11 +305,15 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
         display: "inline-flex",
         alignItems: "center",
         fontFamily: "body",
-        fontSize: "0.8125rem",
+        fontSize: size === "large" ? ["0.9375rem", "1rem"] : "0.8125rem",
         ...sx,
       }}
     >
-      <ClientOnly fallback={<Box sx={{ minHeight: "28px" }} />}>
+      <ClientOnly
+        fallback={
+          <Box sx={{ minHeight: size === "large" ? "44px" : "28px" }} />
+        }
+      >
         {() => (
           <ConnectButton.Custom>
             {({
@@ -295,20 +334,31 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
                   authenticationStatus === "authenticated");
 
               if (!ready) {
-                return <Box aria-hidden={true} sx={loadingPlaceholderStyle} />;
+                return (
+                  <Box
+                    aria-hidden={true}
+                    sx={{
+                      ...loadingPlaceholderStyle,
+                      minHeight: size === "large" ? "44px" : "28px",
+                    }}
+                  />
+                );
               }
 
               if (!connected) {
                 return (
                   <DisconnectedButton
                     isScrolledTop={isScrolledTop}
+                    size={size}
                     onClick={openConnectModal}
                   />
                 );
               }
 
               if (chain.unsupported) {
-                return <WrongNetworkButton onClick={openChainModal} />;
+                return (
+                  <WrongNetworkButton size={size} onClick={openChainModal} />
+                );
               }
 
               return (
@@ -317,6 +367,7 @@ export const ConnectWallet: React.FC<ConnectWalletProps> = ({
                   account={account}
                   showBalance={showBalance}
                   isScrolledTop={isScrolledTop}
+                  size={size}
                   onOpenChain={openChainModal}
                   onOpenAccount={openAccountModal}
                 />

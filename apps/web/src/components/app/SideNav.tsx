@@ -110,8 +110,8 @@ const SideNav = ({
             );
           })}
         </Flex>
-        <Flex sx={{ justifyContent: "center", mb: 3 }}>
-          <ConnectWallet isScrolledTop={false} />
+        <Flex sx={{ justifyContent: "center", mt: 4, mb: 3 }}>
+          <ConnectWallet isScrolledTop={false} size="large" />
         </Flex>
       </Box>
     </Flex>

@@ -126,4 +126,12 @@ describe("ConnectWallet", () => {
       ),
     ).toBe(true);
   });
+
+  it("renders large size variant with touch-friendly dimensions", () => {
+    render(<ConnectWallet isScrolledTop={false} size="large" />);
+
+    const button = screen.getByRole("button", { name: /connect wallet/i });
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveStyle({ minHeight: "44px" });
+  });
 });
