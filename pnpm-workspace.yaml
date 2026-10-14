@@ -8,6 +8,7 @@ allowBuilds:
   core-js: true
   core-js-pure: true
   es5-ext: true
+  esbuild: false
   gatsby: true
   gatsby-cli: true
   keccak: true
@@ -15,3 +16,7 @@ allowBuilds:
   msgpackr-extract: true
   secp256k1: true
   sharp: true
+
+permissions:
+  hardhat:
+    skills: false
