@@ -319,5 +319,36 @@ describe("ContactForm Component Behavior", () => {
         "preset_consulting_message",
       );
     });
+
+    it("automatically deselects the active preset when fields are emptied", async () => {
+      render(<ContactForm />);
+
+      const resumeButton = screen.getByRole("button", {
+        name: "preset_resume_label",
+      });
+
+      act(() => {
+        fireEvent.click(resumeButton);
+      });
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "preset_resume_subject",
+      );
+      expect(screen.getByPlaceholderText("placeholder_message")).toHaveValue(
+        "preset_resume_message",
+      );
+
+      act(() => {
+        fireEvent.change(screen.getByPlaceholderText("placeholder_subject"), {
+          target: { value: "" },
+        });
+        fireEvent.change(screen.getByPlaceholderText("placeholder_message"), {
+          target: { value: "" },
+        });
+      });
+
+      await waitFor(() => {
+        expect(resumeButton).toHaveStyle("background-color: transparent");
+      });
+    });
   });
 });

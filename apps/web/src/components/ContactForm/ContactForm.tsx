@@ -93,11 +93,25 @@ export const ContactForm = forwardRef<ContactFormHandle, ContactFormProps>(
       handleSubmit,
       setFocus,
       setValue,
+      watch,
       formState: { errors, isSubmitting },
     } = useForm<FormData>({
       resolver: yupResolver(schema),
       mode: "onSubmit",
     });
+
+    const watchedSubject = watch("subject");
+    const watchedMessage = watch("message");
+
+    useEffect(() => {
+      if (activePreset) {
+        const isSubjectEmpty = !watchedSubject || watchedSubject.trim() === "";
+        const isMessageEmpty = !watchedMessage || watchedMessage.trim() === "";
+        if (isSubjectEmpty && isMessageEmpty) {
+          setActivePreset(null);
+        }
+      }
+    }, [watchedSubject, watchedMessage, activePreset]);
 
     const emailInputRef = useRef<HTMLInputElement | null>(null);
     const messageInputRef = useRef<HTMLTextAreaElement | null>(null);
