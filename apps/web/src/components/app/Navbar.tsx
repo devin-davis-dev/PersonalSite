@@ -105,7 +105,7 @@ const Navbar = () => {
             <Flex
               data-testid="desktop-links"
               sx={{
-                display: ["none", "none", "none", "flex"],
+                display: ["none", "none", "none", "none", "flex"],
                 alignItems: "center",
                 color: "white",
               }}
@@ -201,7 +201,7 @@ const Navbar = () => {
             </Box>
             <Flex
               sx={{
-                display: ["none", "none", "none", "flex"],
+                display: ["none", "none", "none", "none", "flex"],
                 alignItems: "center",
                 color: "white",
               }}
@@ -244,7 +244,7 @@ const hamburgerStyles: ThemeUIStyleObject = {
   flexDirection: "column",
   justifyContent: "space-between",
   cursor: "pointer",
-  display: ["flex", "flex", "flex", "none"],
+  display: ["flex", "flex", "flex", "flex", "none"],
 };
 
 const hamburderPatty: ThemeUIStyleObject = {

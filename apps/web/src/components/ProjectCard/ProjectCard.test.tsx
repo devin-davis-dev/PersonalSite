@@ -40,4 +40,24 @@ describe("ProjectCard", () => {
     const link = screen.getByRole("link");
     expect(link).toHaveAttribute("href", "/projects/test-project");
   });
+
+  it("renders with stacked layout when stacked prop is true", () => {
+    render(<ProjectCard project={mockProject} stacked />);
+    expect(screen.getByText("Test Project")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "image 1" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /view/i })).toBeInTheDocument();
+  });
+
+  it("renders with stacked layout when layout is set to stacked", () => {
+    render(<ProjectCard project={mockProject} layout="stacked" />);
+    expect(screen.getByText("Test Project")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "image 1" })).toBeInTheDocument();
+  });
+
+  it("renders status badge when project status is complete or ongoing", () => {
+    render(
+      <ProjectCard project={{ ...mockProject, status: "complete" }} stacked />,
+    );
+    expect(screen.getByText(/status_complete/i)).toBeInTheDocument();
+  });
 });

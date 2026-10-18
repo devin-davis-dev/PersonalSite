@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Flex,
+  Grid,
   Heading,
   Text,
   type ThemeUIStyleObject,
@@ -161,29 +162,20 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
           <Heading as="h2" variant="subheading1">
             Other Projects
           </Heading>
-          <Flex sx={{ gap: "10px", mt: 2, flexWrap: "wrap" }}>
+          <Grid
+            gap={3}
+            columns={[1, 1, 2, 2, 3]}
+            sx={{ mt: 2, alignItems: "stretch" }}
+          >
             {randomProjects.map(({ node }) => (
               <ProjectCard
                 key={node.frontmatter.title}
-                sx={{
-                  flex: 1,
-                  minWidth: [
-                    "100%",
-                    "100%",
-                    "calc(50% - 10px)",
-                    "calc(33.33% - 10px)",
-                  ],
-                  maxWidth: [
-                    "100%",
-                    "100%",
-                    "calc(50% - 10px)",
-                    "calc(33.33% - 10px)",
-                  ],
-                }}
+                stacked
+                sx={{ mb: 0 }}
                 project={{ ...node.frontmatter, slug: node.fields.slug }}
               />
             ))}
-          </Flex>
+          </Grid>
         </Box>
       </PageContentWrapper>
     </Layout>

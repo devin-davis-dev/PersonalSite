@@ -1,28 +1,52 @@
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
 import { Link, useTranslation } from "gatsby-plugin-react-i18next";
-import { Box, Button, Card, Flex, Heading, Text } from "theme-ui";
+import {
+  Box,
+  Button,
+  Card,
+  Flex,
+  Heading,
+  Text,
+  type ThemeUIStyleObject,
+} from "theme-ui";
 import type { Project } from "../../types";
 import { TechListing } from "../TechListing/TechListing";
 
-interface ProjectCardProps {
+export interface ProjectCardProps {
   project: Project;
+  stacked?: boolean;
+  layout?: "horizontal" | "stacked";
+  sx?: ThemeUIStyleObject;
   [key: string]: any;
 }
 
-const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
+const ProjectCard = ({
+  project,
+  stacked = false,
+  layout,
+  sx,
+  ...props
+}: ProjectCardProps) => {
   const { t } = useTranslation("common");
   const cardImage = project.image1 ? getImage(project.image1) : null;
+  const isStacked = Boolean(
+    stacked || layout === "stacked" || props.variant === "stacked",
+  );
+
   return (
     <Card
       variant="primary"
       sx={{
         color: "white",
-        height: "max-content",
+        height: isStacked ? "100%" : "max-content",
+        display: isStacked ? "flex" : undefined,
+        flexDirection: isStacked ? "column" : undefined,
         position: "relative",
         borderRadius: "10px",
         overflow: "hidden",
         backgroundColor: "primary",
         mb: 3,
+        ...sx,
       }}
       {...props}
     >
@@ -51,21 +75,23 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
         sx={{
           bg: "primary",
           width: "100%",
+          height: isStacked ? "100%" : undefined,
+          flex: isStacked ? 1 : undefined,
           p: 3,
           justifyContent: "space-between",
-          alignItems: "center",
-          flexDirection: [
-            "column-reverse",
-            "column-reverse",
-            "column-reverse",
-            "row",
-          ],
+          alignItems: isStacked ? "stretch" : "center",
+          flexDirection: isStacked
+            ? "column-reverse"
+            : ["column-reverse", "column-reverse", "column-reverse", "row"],
         }}
       >
         <Box
           sx={{
             height: "100%",
-            padding: [1, 2, 3],
+            display: isStacked ? "flex" : undefined,
+            flexDirection: isStacked ? "column" : undefined,
+            flex: isStacked ? 1 : undefined,
+            padding: isStacked ? [1, 2, 2] : [1, 2, 3],
             width: "100%",
           }}
         >
@@ -77,10 +103,10 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
               title={project.title}
               sx={{
                 overflowWrap: "anywhere",
-                mt: [3, 3, 3, 1.5],
+                mt: isStacked ? 2 : [3, 3, 3, 1.5],
                 mb: [1.5],
-                whiteSpace: ["wrap", "nowrap"],
-                textOverflow: "ellipsis",
+                whiteSpace: isStacked ? "normal" : ["wrap", "nowrap"],
+                textOverflow: isStacked ? "clip" : "ellipsis",
                 overflow: "hidden",
               }}
             >
@@ -89,9 +115,9 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
             <Text variant="regular" sx={{ color: "white" }}>
               {project.startDate}
             </Text>
-            {project.exerpt && (
+            {(project.exerpt || project.excerpt) && (
               <Text variant="regular" sx={{ color: "white" }}>
-                {project.exerpt}
+                {project.exerpt || project.excerpt}
               </Text>
             )}
           </Box>
@@ -99,11 +125,13 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
             technologies={project.technologies}
             descriptive={false}
           />
-          <Box>
+          <Box
+            sx={{ mt: isStacked ? "auto" : undefined, pt: isStacked ? 3 : 0 }}
+          >
             <Link to={project.slug}>
               <Button
                 variant="secondary"
-                sx={{ mt: 3 }}
+                sx={{ mt: isStacked ? 0 : 3 }}
                 className="secondary-btn"
               >
                 View
@@ -114,13 +142,26 @@ const ProjectCard = ({ project, ...props }: ProjectCardProps) => {
         {cardImage && (
           <Box
             sx={{
-              maxWidth: "400px",
+              maxWidth: isStacked ? "100%" : "400px",
+              height: isStacked ? "180px" : undefined,
               maxHeight: "200px",
+              width: isStacked ? "100%" : "auto",
               borderRadius: 10,
               overflow: "hidden",
+              flexShrink: 0,
+              display: isStacked ? "flex" : undefined,
+              justifyContent: isStacked ? "center" : undefined,
             }}
           >
-            <GatsbyImage image={cardImage} alt={"image 1"} />
+            <GatsbyImage
+              image={cardImage}
+              alt={"image 1"}
+              style={
+                isStacked
+                  ? { width: "100%", height: "100%", objectFit: "cover" }
+                  : undefined
+              }
+            />
           </Box>
         )}
       </Flex>
