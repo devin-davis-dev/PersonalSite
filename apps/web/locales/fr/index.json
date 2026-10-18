@@ -1,12 +1,12 @@
 {
-  "hero_title": "Dev le Développeur",
-  "hero_subtitle": "Je transforme les problèmes en solutions réfléchies et évolutives. Une geste tecnique à la fois.",
+  "hero_title": "Devin Davis (Dev)",
+  "hero_subtitle": "Ingénieur Produit Logiciel. Conception de systèmes SaaS réfléchis et évolutifs ainsi que de solutions cloud qui renforcent les experts métier.",
   "lets_chat": "Discutons",
   "tooltip_static_site": "Ce site est généré statiquement et servi en périphérie.",
   "hey_there": "Bonjour !",
-  "intro_text_1": "Je trouve les problèmes que ressentent vos utilisateurs sans pouvoir les expliquer, et je les résous au niveau du système. Je suis un développeur Web Full Stack avec ",
+  "intro_text_1": "Je trouve les problèmes que ressentent vos utilisateurs sans pouvoir les expliquer, et je les résous au niveau du système. Je suis un Ingénieur Produit Logiciel avec ",
   "intro_text_years": "{{years}} ans",
-  "intro_text_2": " d'expérience dans la création de produits SaaS de bout en bout — du frontend à l'infrastructure. J'adopte une approche axée sur le produit, en livrant des solutions réfléchies et évolutives avant que les problèmes ne deviennent des crises. ",
+  "intro_text_2": " d'expérience dans la création et l'évolution de produits SaaS de bout en bout. J'adopte une approche axée sur le produit, en livrant des architectures réfléchies et résilientes avant que les problèmes ne deviennent des crises. Mon CV détaillé et mes références sont disponibles sur demande via le formulaire de contact ou sur LinkedIn. ",
   "learn_more": "En savoir plus",
   "intro_text_3": " sur ma façon de travailler, ou n'hésitez pas à ",
   "reach_out": "me contacter !",
@@ -14,7 +14,7 @@
   "recent_projects": "Projets récents",
   "reading_list": "Liste de lecture",
   "cta_title": "Travaillons ensemble",
-  "cta_content": "Je suis un développeur passionné qui cherche toujours à maîtriser de nouvelles compétences et à être utile à ceux avec qui je travaille.",
-  "cta_button": "Découvrez comment je peux aider",
+  "cta_content": "Que vous soyez un recruteur à la recherche d'un ingénieur senior ou un client développant un produit SaaS ambitieux, je serais ravi d'échanger.",
+  "cta_button": "Prendre contact",
   "portrait_alt": "Portrait de Devin"
 }

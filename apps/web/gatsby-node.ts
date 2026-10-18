@@ -265,5 +265,25 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
     }
   }
 
+  // Fallbacks for optional Web3 connector dependencies not bundled in client
+  config.resolve = config.resolve || {};
+  config.resolve.fallback = {
+    ...config.resolve.fallback,
+    "@base-org/account": false,
+    "@coinbase/wallet-sdk": false,
+    "@metamask/connect-evm": false,
+    "@safe-global/safe-apps-sdk": false,
+    "@safe-global/safe-apps-provider": false,
+    "@walletconnect/ethereum-provider": false,
+    accounts: false,
+  };
+
+  // Suppress harmless build warnings for optional Web3 peer dependencies
+  config.ignoreWarnings = [
+    ...(config.ignoreWarnings || []),
+    /Can't resolve '(@base-org\/account|@coinbase\/wallet-sdk|@metamask\/connect-evm|@safe-global\/safe-apps-sdk|@safe-global\/safe-apps-provider|@walletconnect\/ethereum-provider|accounts)'/,
+    /Critical dependency: the request of a dependency is an expression/,
+  ];
+
   actions.replaceWebpackConfig(config);
 };

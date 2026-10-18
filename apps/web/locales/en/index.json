@@ -1,12 +1,12 @@
 {
-  "hero_title": "Dev the Developer",
-  "hero_subtitle": "I transform problems into thoughtful, scalable solutions. One technical move at a time.",
+  "hero_title": "Devin Davis (Dev)",
+  "hero_subtitle": "Software Product Engineer. Building thoughtful, scalable SaaS systems and cloud solutions that empower domain experts.",
   "lets_chat": "Let's Chat",
   "tooltip_static_site": "This site is statically generated and served at the edge.",
   "hey_there": "Hey there!",
   "intro_text_1": "I find the problems your users feel but can't explain, and I solve them at the system level. I'm a Software Product Engineer with ",
   "intro_text_years": "{{years}} years",
-  "intro_text_2": " of experience building SaaS products end to end. I take a product-first approach, shipping thoughtful, scalable solutions before the problems become crises. ",
+  "intro_text_2": " of experience building and scaling SaaS products end to end. I take a product-first approach, shipping thoughtful, resilient architectures before the problems become crises. Detailed resume and references are available upon request via the contact form or LinkedIn. ",
   "learn_more": "Learn more",
   "intro_text_3": " about how I work, or feel free to ",
   "reach_out": "reach out!",
@@ -14,7 +14,7 @@
   "recent_projects": "Recent Projects",
   "reading_list": "Reading List",
   "cta_title": "Let's Work Together",
-  "cta_content": "I'm a passionate developer who is always trying to master new skills and be of service to those I work with.",
-  "cta_button": "Learn how I can help",
+  "cta_content": "Whether you are a recruiter looking for a senior engineering contributor or a client building an ambitious SaaS product, I'd love to connect.",
+  "cta_button": "Get in Touch",
   "portrait_alt": "Devin portrait"
 }

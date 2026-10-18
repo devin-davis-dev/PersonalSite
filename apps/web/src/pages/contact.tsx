@@ -27,18 +27,18 @@ const ContactPage = () => {
         title={t("seo_title")}
         description={t("seo_description")}
         keywords={[
-          "Full Stack Web Developer",
+          "Software Product Engineer",
+          "Devin Davis",
           "Devin S. Davis",
-          "Contact Devin S. Davis",
-          "Freelance Developer",
-          "Contractor",
+          "Contact Devin Davis",
+          "Full Stack Web Developer",
+          "Senior Software Engineer",
           "Full-Time Developer Opportunities",
-          "Web Development Services",
-          "Innovative Web Technologies",
-          "Collaborate on Projects",
-          "Hire a Web Developer",
+          "SaaS Product Engineering",
+          "Cloud Solutions",
+          "Hire a Software Engineer",
           "Technical Solutions Expert",
-          "Custom Web Solutions",
+          "Collaborate on Projects",
           "Web Developer Portfolio",
         ]}
       />
@@ -107,7 +107,10 @@ const ContactPage = () => {
                     cursor: "pointer",
                     fontWeight: "bold",
                   }}
-                  onClick={highlightContactForm}
+                  onClick={() => {
+                    highlightContactForm();
+                    contactFormRef.current?.selectPreset("resume");
+                  }}
                 >
                   {t("sidebar_contact_form")}
                 </Link>

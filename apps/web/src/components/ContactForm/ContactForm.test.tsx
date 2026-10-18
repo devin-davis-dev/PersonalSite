@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "../../test-utils";
+import { act, fireEvent, render, screen, waitFor } from "../../test-utils";
 import ContactForm from "./ContactForm";
 
 describe("ContactForm Component Behavior", () => {
@@ -215,6 +215,109 @@ describe("ContactForm Component Behavior", () => {
 
       rerender(<ContactForm isHighlighted={true} />);
       expect(formContainer).toHaveStyle("border: 3px solid orange");
+    });
+  });
+
+  describe("Quick Inquiry Presets", () => {
+    it("renders all preset buttons", () => {
+      render(<ContactForm />);
+
+      expect(screen.getByText("quick_templates_title")).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "preset_resume_label" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "preset_fulltime_label" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "preset_consulting_label" }),
+      ).toBeInTheDocument();
+    });
+
+    it("pre-populates subject and message when a preset button is clicked", () => {
+      render(<ContactForm />);
+
+      const resumeButton = screen.getByRole("button", {
+        name: "preset_resume_label",
+      });
+      act(() => {
+        fireEvent.click(resumeButton);
+      });
+
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "preset_resume_subject",
+      );
+      expect(screen.getByPlaceholderText("placeholder_message")).toHaveValue(
+        "preset_resume_message",
+      );
+    });
+
+    it("clears subject and message when the active preset button is clicked again", () => {
+      render(<ContactForm />);
+
+      const resumeButton = screen.getByRole("button", {
+        name: "preset_resume_label",
+      });
+      // Select
+      act(() => {
+        fireEvent.click(resumeButton);
+      });
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "preset_resume_subject",
+      );
+
+      // Deselect
+      act(() => {
+        fireEvent.click(resumeButton);
+      });
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "",
+      );
+      expect(screen.getByPlaceholderText("placeholder_message")).toHaveValue(
+        "",
+      );
+    });
+
+    it("switches pre-filled content when a different preset is clicked", () => {
+      render(<ContactForm />);
+
+      act(() => {
+        fireEvent.click(
+          screen.getByRole("button", { name: "preset_resume_label" }),
+        );
+      });
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "preset_resume_subject",
+      );
+
+      act(() => {
+        fireEvent.click(
+          screen.getByRole("button", { name: "preset_fulltime_label" }),
+        );
+      });
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "preset_fulltime_subject",
+      );
+      expect(screen.getByPlaceholderText("placeholder_message")).toHaveValue(
+        "preset_fulltime_message",
+      );
+    });
+
+    it("allows programmatic preset selection via imperative ref", () => {
+      const ref = { current: null as any };
+      render(<ContactForm ref={ref} />);
+
+      expect(ref.current).toBeDefined();
+      act(() => {
+        ref.current.selectPreset("consulting");
+      });
+
+      expect(screen.getByPlaceholderText("placeholder_subject")).toHaveValue(
+        "preset_consulting_subject",
+      );
+      expect(screen.getByPlaceholderText("placeholder_message")).toHaveValue(
+        "preset_consulting_message",
+      );
     });
   });
 });
