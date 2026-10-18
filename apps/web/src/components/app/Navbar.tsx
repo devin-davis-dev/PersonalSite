@@ -1,7 +1,7 @@
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { StaticImage } from "gatsby-plugin-image";
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   Box,
@@ -14,6 +14,7 @@ import ConnectWallet from "../ConnectWallet";
 import SideNav from "./SideNav";
 
 const Navbar = () => {
+  const { t } = useTranslation("common");
   const [isScrolledTop, setIsScrolledTop] = useState(true);
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -98,7 +99,7 @@ const Navbar = () => {
             <Link to="/" sx={{ width: "60px", mr: [0, 4], flexShrink: 0 }}>
               <Box className="nav-triangle" />
               <Box sx={{ filter: isScrolledTop ? "none" : "brightness(0)" }}>
-                <StaticImage alt="logo" src="../../images/logo.png" />
+                <StaticImage alt={t("logo")} src="../../images/logo.png" />
               </Box>
               <Box className="nav-triangle" />
             </Link>

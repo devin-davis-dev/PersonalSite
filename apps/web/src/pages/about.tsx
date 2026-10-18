@@ -75,7 +75,7 @@ const AboutPage = ({ data }: PageProps<AboutPageData>) => {
 
   return (
     <Layout>
-      <Seo title="About" />
+      <Seo title={t("seo_title")} />
       <PageContentWrapper>
         <Heading as="h1" variant="hero">
           {t("page_title")}
@@ -97,7 +97,7 @@ const AboutPage = ({ data }: PageProps<AboutPageData>) => {
           >
             <StaticImage
               src="../images/devin_portrait_2.jpg"
-              alt="dev portrait"
+              alt={t("portrait_alt")}
             />
           </Box>
           <Box>

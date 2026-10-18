@@ -10,7 +10,7 @@ const NotFoundPage = () => {
 
   return (
     <Layout>
-      <Seo title="Page Not Found | Dev the Developer" />
+      <Seo title={t("seo_title")} />
       <Box
         sx={{
           bg: "primary",

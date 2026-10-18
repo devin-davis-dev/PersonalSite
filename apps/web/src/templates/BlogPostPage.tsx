@@ -1,6 +1,6 @@
 import { MDXProvider } from "@mdx-js/react";
 import { graphql } from "gatsby";
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { DateTime } from "luxon";
 import type React from "react";
 import { Box, Button, Flex, Heading, Text } from "theme-ui";
@@ -47,12 +47,13 @@ interface BlogPostPageProps {
 }
 
 const BlogPostPage = ({ data, children }: BlogPostPageProps) => {
+  const { t } = useTranslation("common");
   const { mdx: node } = data;
 
   return (
     <Layout>
       <Seo
-        title={`Post - ${node.frontmatter.title}`}
+        title={t("post_prefix", { title: node.frontmatter.title })}
         keywords={node.frontmatter.keywords.split(",")}
         description={node.excerpt}
         image={node.frontmatter.thumbnail.childImageSharp.original.src}
@@ -99,7 +100,7 @@ const BlogPostPage = ({ data, children }: BlogPostPageProps) => {
         <MDXProvider components={shortCodes}>{children}</MDXProvider>
         <Box sx={{ textAlign: "center" }}>
           <Link to="/blog">
-            <Button>Read More Articles</Button>
+            <Button>{t("read_more_articles")}</Button>
           </Link>
         </Box>
       </Box>

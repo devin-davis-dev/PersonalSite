@@ -118,20 +118,20 @@ describe("Navbar", () => {
     expect(connectButton).toBeInTheDocument();
 
     // Verify ordering in the DOM:
-    // Logo -> Blog -> Projects -> About -> Contact -> Climbing -> LinkedIn -> Connect Wallet
+    // Logo -> Contact -> About -> Projects -> Blog -> Climbing -> LinkedIn -> Connect Wallet
     const elementsInContainer = Array.from(
       desktopContainer.querySelectorAll("a, button"),
     );
 
     const logoIndex = elementsInContainer.findIndex((el) => el === logoLink);
-    const blogIndex = elementsInContainer.findIndex((el) => el === blogLink);
-    const projectsIndex = elementsInContainer.findIndex(
-      (el) => el === projectsLink,
-    );
-    const aboutIndex = elementsInContainer.findIndex((el) => el === aboutLink);
     const contactIndex = elementsInContainer.findIndex(
       (el) => el === contactLink,
     );
+    const aboutIndex = elementsInContainer.findIndex((el) => el === aboutLink);
+    const projectsIndex = elementsInContainer.findIndex(
+      (el) => el === projectsLink,
+    );
+    const blogIndex = elementsInContainer.findIndex((el) => el === blogLink);
     const climbingIndex = elementsInContainer.findIndex(
       (el) => el === climbingLink,
     );
@@ -142,11 +142,11 @@ describe("Navbar", () => {
       (el) => el === connectButton,
     );
 
-    expect(logoIndex).toBeLessThan(blogIndex);
-    expect(blogIndex).toBeLessThan(projectsIndex);
-    expect(projectsIndex).toBeLessThan(aboutIndex);
-    expect(aboutIndex).toBeLessThan(contactIndex);
-    expect(contactIndex).toBeLessThan(climbingIndex);
+    expect(logoIndex).toBeLessThan(contactIndex);
+    expect(contactIndex).toBeLessThan(aboutIndex);
+    expect(aboutIndex).toBeLessThan(projectsIndex);
+    expect(projectsIndex).toBeLessThan(blogIndex);
+    expect(blogIndex).toBeLessThan(climbingIndex);
     expect(climbingIndex).toBeLessThan(linkedInIndex);
     expect(linkedInIndex).toBeLessThan(walletIndex);
   });

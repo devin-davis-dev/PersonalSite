@@ -1,4 +1,5 @@
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
+import { useTranslation } from "gatsby-plugin-react-i18next";
 import type React from "react";
 import { Box, Grid, type ThemeUIStyleObject } from "theme-ui";
 
@@ -24,6 +25,7 @@ export function ProjectSection({
   alignment = "left",
   caption,
 }: ProjectSectionProps) {
+  const { t } = useTranslation("common");
   const isLeftAligned = alignment === "left";
 
   const hasImage = image && getImage(image);
@@ -31,7 +33,7 @@ export function ProjectSection({
   return (
     <Box
       as="section"
-      aria-label="Project Section"
+      aria-label={t("project_section")}
       sx={{ ...sectionWrapperStyle }}
     >
       {hasImage ? (

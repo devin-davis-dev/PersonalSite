@@ -1,5 +1,6 @@
 {
   "page_title": "Un peu plus sur moi",
+  "page_description": "Je suis un ingénieur produit logiciel spécialisé dans la création d'applications web évolutives et de solutions cloud-natives.",
   "bio_text_1": "Je suis un développeur Full Stack spécialisé dans la création d'applications web évolutives et de solutions cloud natives. Mon travail couvre les plateformes d'entreprise, les systèmes IoT et les sites web haute performance, en travaillant de bout en bout, du frontend au backend en passant par l'infrastructure. J'adopte une approche axée sur le produit, en priorisant l'expérience utilisateur tout en cherchant activement les cas limites et les points de friction qui provoquent le churn, souvent avant même que le reste de mon équipe ne les identifie. Je remonte ces problèmes à leur cause profonde, qu'il s'agisse de goulets d'étranglement de scalabilité, de conditions de course persistantes ou d'une interface maladroite qui fait fuir les utilisateurs. J'ai livré des fonctionnalités de planification de production et de chaîne d'approvisionnement pour un logiciel de gestion brassicole utilisant Angular et .NET sur Azure, construit des pipelines de données IoT en temps réel traitant la télémétrie de capteurs, et développé des sites clients responsifs optimisés pour la performance et le SEO. Je ne m'arrête pas à faire fonctionner les choses. Je conçois des systèmes avec intention, en construisant des solutions réfléchies, évolutives et conçues pour évoluer. ",
   "please_reach_out": "N'hésitez pas à me contacter",
   "bio_text_2": " ; je suis toujours partant pour discuter ! ",
@@ -16,7 +17,10 @@
   "bio_text_3a": "En dehors du clavier, je suis un ",
   "bio_text_3_link": "grimpeur passionné",
   "bio_text_3b": ". La discipline qui consiste à lire un problème sous tous les angles et à y réfléchir méthodiquement avant même d'effectuer le moindre mouvement est exactement l'état d'esprit que j'apporte aux problèmes techniques difficiles.",
+  "bio_text_4": "Continuez à lire ci-dessous pour en savoir plus sur mon processus et ",
   "cta_title": "Découvrez mes projets",
   "cta_content": "Chaque projet que j'entreprends, je me l'approprie.",
-  "cta_button": "Allons-y !"
+  "cta_button": "Allons-y !",
+  "seo_title": "À propos",
+  "portrait_alt": "Portrait de Devin"
 }

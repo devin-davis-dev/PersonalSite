@@ -134,7 +134,7 @@ const ProjectCard = ({
                 sx={{ mt: isStacked ? 0 : 3 }}
                 className="secondary-btn"
               >
-                View
+                {t("view")}
               </Button>
             </Link>
           </Box>
@@ -155,7 +155,7 @@ const ProjectCard = ({
           >
             <GatsbyImage
               image={cardImage}
-              alt={"image 1"}
+              alt={project.title}
               style={
                 isStacked
                   ? { width: "100%", height: "100%", objectFit: "cover" }

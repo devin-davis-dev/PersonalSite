@@ -69,8 +69,8 @@ const ProjectsPage = ({ data }: PageProps<ProjectsPageData>) => {
   return (
     <Layout>
       <Seo
-        title="Projects"
-        description={`Explore the portfolio of Devin Davis, a results-oriented full-stack developer showcasing web solutions and creative designs. Let's connect to collaborate or discuss new opportunities.`}
+        title={t("page_title")}
+        description={t("seo_description")}
         keywords={keywords}
       />
       <Box

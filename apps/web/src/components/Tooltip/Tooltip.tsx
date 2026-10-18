@@ -1,3 +1,4 @@
+import { useTranslation } from "gatsby-plugin-react-i18next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Box, Text } from "theme-ui";
 
@@ -10,6 +11,7 @@ type HorizontalPos = "center" | "right" | "left";
 type VerticalPos = "top" | "bottom";
 
 export default function Tooltip({ text, variant = "dark" }: TooltipProps) {
+  const { t } = useTranslation("common");
   const isLight = variant === "light";
   const [isVisible, setIsVisible] = useState(false);
   const [position, setPosition] = useState<{
@@ -219,7 +221,7 @@ export default function Tooltip({ text, variant = "dark" }: TooltipProps) {
             outlineOffset: "2px",
           },
         }}
-        aria-label="More information"
+        aria-label={t("tooltip_more_info")}
       >
         ?
       </button>

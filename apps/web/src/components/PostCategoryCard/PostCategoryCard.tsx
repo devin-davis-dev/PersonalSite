@@ -1,4 +1,4 @@
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import type React from "react";
 import { Button, Flex, Heading, Text } from "theme-ui";
 
@@ -9,6 +9,7 @@ interface PostCategoryCardProps {
 }
 
 function PostCategoryCard({ title, content, link }: PostCategoryCardProps) {
+  const { t } = useTranslation("common");
   return (
     <Flex
       sx={{
@@ -30,7 +31,7 @@ function PostCategoryCard({ title, content, link }: PostCategoryCardProps) {
         </Text>
       )}
       <Link to={link} sx={{ textDecoration: "none", color: "white" }}>
-        <Button sx={{ display: "block" }}>Read</Button>
+        <Button sx={{ display: "block" }}>{t("read")}</Button>
       </Link>
     </Flex>
   );

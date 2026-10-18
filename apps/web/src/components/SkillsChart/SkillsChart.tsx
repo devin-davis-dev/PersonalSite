@@ -1,3 +1,4 @@
+import { useTranslation } from "gatsby-plugin-react-i18next";
 import { useState } from "react";
 import {
   Bar,
@@ -13,6 +14,7 @@ import { colors } from "../../theme/theme";
 import type { Technology } from "../../types";
 
 const CustomTooltip = ({ active, payload }: any) => {
+  const { t } = useTranslation("common");
   if (!active || !payload?.length) return null;
   const { name, projects } = payload[0].payload;
   return (
@@ -36,7 +38,8 @@ const CustomTooltip = ({ active, payload }: any) => {
         {name}
       </Text>
       <Text sx={{ color: "rgba(255,255,255,0.6)", fontSize: 0 }}>
-        {projects} {projects === 1 ? "project" : "projects"}
+        {projects}{" "}
+        {projects === 1 ? t("project_singular") : t("project_plural")}
       </Text>
     </Box>
   );

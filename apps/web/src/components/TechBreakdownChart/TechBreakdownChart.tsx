@@ -8,7 +8,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   infrastructure: "#81B29A",
 };
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload, projectsLabel }: any) => {
   if (!active || !payload?.length) return null;
   const { label, count, percent } = payload[0].payload;
   return (
@@ -32,7 +32,7 @@ const CustomTooltip = ({ active, payload }: any) => {
         {label}
       </Text>
       <Text sx={{ color: "rgba(255,255,255,0.7)", fontSize: 0 }}>
-        {count} projects · {Math.round(percent * 100)}%
+        {count} {projectsLabel} · {Math.round(percent * 100)}%
       </Text>
     </Box>
   );
@@ -92,7 +92,7 @@ const TechBreakdownChart = ({
             <Cell key={entry.key} fill={entry.color} />
           ))}
         </Pie>
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip content={<CustomTooltip projectsLabel={projectsLabel} />} />
       </PieChart>
       <Flex sx={{ flexDirection: "column", gap: 3 }}>
         {data.map((cat) => (

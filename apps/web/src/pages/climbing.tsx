@@ -14,7 +14,7 @@ const ClimbingPage = () => {
 
   return (
     <Layout>
-      <Seo title="Climbing" />
+      <Seo title={t("page_title")} />
       <PageContentWrapper>
         <Heading as="h1" variant="hero">
           {t("page_title")}

@@ -1,5 +1,5 @@
 import { GatsbyImage, getImage } from "gatsby-plugin-image";
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Button, Card, Grid, Heading, Text } from "theme-ui";
 import type { BlogPost } from "../../types";
 
@@ -9,6 +9,7 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post, postContent }: PostCardProps) => {
+  const { t } = useTranslation("common");
   const cardImage = getImage(post.thumbnail as any);
 
   return (
@@ -79,7 +80,7 @@ const PostCard = ({ post, postContent }: PostCardProps) => {
                 sx={{ mt: 3 }}
                 className="secondary-btn"
               >
-                Read
+                {t("read")}
               </Button>
             </Link>
           </Box>

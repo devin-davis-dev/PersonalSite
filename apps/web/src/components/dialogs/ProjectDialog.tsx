@@ -1,4 +1,4 @@
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { forwardRef } from "react";
 import { Box, Flex, Heading } from "theme-ui";
 import { CloseButton } from "../app/CloseButton";
@@ -15,6 +15,8 @@ interface ProjectDialogProps {
 
 const ProjectDialog = forwardRef<HTMLDialogElement, ProjectDialogProps>(
   ({ title, projects }, ref) => {
+    const { t } = useTranslation("common");
+
     return (
       <dialog
         style={{
@@ -44,7 +46,7 @@ const ProjectDialog = forwardRef<HTMLDialogElement, ProjectDialogProps>(
                 }}
               >
                 <Heading sx={{ mb: 0 }} variant="subheading2">
-                  {title} - Projects
+                  {t("dialog_projects_title", { title })}
                 </Heading>
                 <CloseButton
                   sx={{ position: "absolute" }}

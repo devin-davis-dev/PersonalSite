@@ -24,8 +24,8 @@ const ContactPage = () => {
   return (
     <Layout>
       <Seo
-        title="Contact"
-        description="Contact Devin Davis, a Full Stack Web Developer. Discuss your project or collaborate today. Open to freelance and full-time roles!"
+        title={t("seo_title")}
+        description={t("seo_description")}
         keywords={[
           "Full Stack Web Developer",
           "Devin S. Davis",

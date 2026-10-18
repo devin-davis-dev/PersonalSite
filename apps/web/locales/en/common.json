@@ -17,5 +17,18 @@
   "build_status_building": "Building",
   "build_status_error": "Error",
   "wallet_connect": "Connect Wallet",
-  "wallet_wrong_network": "Wrong Network"
+  "wallet_wrong_network": "Wrong Network",
+  "read": "Read",
+  "view": "View",
+  "recent_commits": "Recent Commits",
+  "project_singular": "project",
+  "project_plural": "projects",
+  "project_section": "Project Section",
+  "tooltip_more_info": "More information",
+  "dialog_projects_title": "{{title}} - Projects",
+  "logo": "Logo",
+  "github_repo": "GitHub Repo",
+  "source_code_unavailable": "Source code is not publicly available",
+  "read_more_articles": "Read More Articles",
+  "post_prefix": "Post - {{title}}"
 }

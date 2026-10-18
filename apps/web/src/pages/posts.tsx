@@ -1,4 +1,5 @@
 import { type PageProps, graphql } from "gatsby";
+import { useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Grid, Heading, Text } from "theme-ui";
 
 import PostCard from "../components/PostCard/PostCard";
@@ -25,11 +26,12 @@ interface AllPostsPageData {
 }
 
 const AllPostsPage = ({ data }: PageProps<AllPostsPageData>) => {
+  const { t } = useTranslation("posts");
   const pageData = data.allMdx.edges;
 
   return (
     <Layout>
-      <Seo title="Blog" />
+      <Seo title={t("seo_title")} />
       <Box
         sx={{
           margin: "0 auto",
@@ -39,12 +41,9 @@ const AllPostsPage = ({ data }: PageProps<AllPostsPageData>) => {
       >
         <Box sx={{ mt: 6, mb: 5 }}>
           <Heading as="h1" variant="hero">
-            Blog Posts
+            {t("page_title")}
           </Heading>
-          <Text variant="large">
-            Looking to learn more about web development? Here I post content
-            about various web related topics.
-          </Text>
+          <Text variant="large">{t("page_description")}</Text>
         </Box>
         <Grid
           sx={{
@@ -104,7 +103,7 @@ export const programmingPostsPageQuery = graphql`
     }
 
     locales: allLocale(
-      filter: { ns: { in: ["common"] }, language: { eq: $language } }
+      filter: { ns: { in: ["common", "posts"] }, language: { eq: $language } }
     ) {
       edges {
         node {

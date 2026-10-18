@@ -27,7 +27,7 @@ describe("ProjectCard", () => {
       expect.anything(),
     );
 
-    const imgEl = screen.getByRole("img", { name: "image 1" });
+    const imgEl = screen.getByRole("img", { name: "Test Project" });
     expect(imgEl).toBeInTheDocument();
     expect(screen.getByText("Test Project")).toBeInTheDocument();
     expect(screen.getByText("March 2024")).toBeInTheDocument();
@@ -44,14 +44,18 @@ describe("ProjectCard", () => {
   it("renders with stacked layout when stacked prop is true", () => {
     render(<ProjectCard project={mockProject} stacked />);
     expect(screen.getByText("Test Project")).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "image 1" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: "Test Project" }),
+    ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /view/i })).toBeInTheDocument();
   });
 
   it("renders with stacked layout when layout is set to stacked", () => {
     render(<ProjectCard project={mockProject} layout="stacked" />);
     expect(screen.getByText("Test Project")).toBeInTheDocument();
-    expect(screen.getByRole("img", { name: "image 1" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("img", { name: "Test Project" }),
+    ).toBeInTheDocument();
   });
 
   it("renders status badge when project status is complete or ongoing", () => {

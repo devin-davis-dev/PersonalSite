@@ -4,5 +4,10 @@
   "page_description_link": "me contacter",
   "cta_title": "Intéressé par une collaboration ?",
   "cta_content": "J'aimerais avoir de vos nouvelles et explorer comment nous pouvons travailler ensemble.",
-  "cta_button": "Prenez contact"
+  "cta_button": "Prenez contact",
+  "seo_description": "Découvrez le portfolio de Devin Davis, développeur full-stack axé sur les résultats présentant des solutions web et des conceptions créatives. Échangeons pour collaborer ou discuter de nouvelles opportunités.",
+  "detail_cta_title": "Merci d'avoir regardé mon projet !",
+  "detail_cta_content": "Découvrez certains de mes autres projets et voyez sur quoi j'ai travaillé.",
+  "detail_cta_button": "Explorer d'autres projets",
+  "other_projects": "Autres projets"
 }

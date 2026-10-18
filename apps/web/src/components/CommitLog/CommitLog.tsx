@@ -1,3 +1,5 @@
+import { useTranslation } from "gatsby-plugin-react-i18next";
+import { DateTime } from "luxon";
 import { useState } from "react";
 import {
   Box,
@@ -60,7 +62,20 @@ interface CommitLogProps {
 }
 
 export default function CommitLog({ commits }: CommitLogProps) {
+  const { t, i18n } = useTranslation("common");
   const [open, setOpen] = useState(false);
+
+  const formatRelativeTime = (dateString: string) => {
+    try {
+      const dt = DateTime.fromISO(dateString);
+      if (dt.isValid) {
+        return dt.setLocale(i18n.language).toRelative() || timeAgo(dateString);
+      }
+    } catch {
+      // fallback
+    }
+    return timeAgo(dateString);
+  };
 
   return (
     <Box sx={wrapperStyles}>
@@ -78,7 +93,7 @@ export default function CommitLog({ commits }: CommitLogProps) {
           as="h3"
           sx={{ fontSize: 1, color: "orange", fontStyle: "normal", m: 0 }}
         >
-          Recent Commits
+          {t("recent_commits")}
         </Heading>
         <Text
           sx={{
@@ -130,7 +145,7 @@ export default function CommitLog({ commits }: CommitLogProps) {
                   mt: 1,
                 }}
               >
-                {commit.author} &middot; {timeAgo(commit.date)}
+                {commit.author} &middot; {formatRelativeTime(commit.date)}
               </Text>
             </Box>
           ))}

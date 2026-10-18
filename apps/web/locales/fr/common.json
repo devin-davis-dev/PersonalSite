@@ -17,5 +17,18 @@
   "build_status_building": "En construction",
   "build_status_error": "Erreur",
   "wallet_connect": "Connecter le portefeuille",
-  "wallet_wrong_network": "Réseau invalide"
+  "wallet_wrong_network": "Réseau invalide",
+  "read": "Lire",
+  "view": "Voir",
+  "recent_commits": "Commits récents",
+  "project_singular": "projet",
+  "project_plural": "projets",
+  "project_section": "Section de projet",
+  "tooltip_more_info": "Plus d'informations",
+  "dialog_projects_title": "{{title}} - Projets",
+  "logo": "Logo",
+  "github_repo": "Dépôt GitHub",
+  "source_code_unavailable": "Le code source n'est pas disponible publiquement",
+  "read_more_articles": "Lire plus d'articles",
+  "post_prefix": "Article - {{title}}"
 }

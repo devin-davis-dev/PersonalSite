@@ -150,7 +150,7 @@ const IndexPage = ({ data }: PageProps<any>) => {
               <StaticImage
                 style={{ height: "300px" }}
                 src="../images/devin_portrait.jpg"
-                alt="devin portrait"
+                alt={t("portrait_alt")}
               />
             </Box>
             <Box
@@ -201,7 +201,6 @@ const IndexPage = ({ data }: PageProps<any>) => {
                   >
                     {t("reach_out")}
                   </Link>
-                  !
                 </Text>
               </Box>
             </Box>

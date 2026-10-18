@@ -4,7 +4,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { StaticImage } from "gatsby-plugin-image";
-import { Link } from "gatsby-plugin-react-i18next";
+import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Flex, Text, Link as ThemeLink } from "theme-ui";
 import { useExternalNavLinks, useNavLinks } from "../../hooks/use-nav-links";
 import ConnectWallet from "../ConnectWallet";
@@ -21,6 +21,7 @@ const SideNav = ({
   setSideNavOpen,
   enableScrollFunc,
 }: SideNavProps) => {
+  const { t } = useTranslation("common");
   const navLinks = useNavLinks();
   const externalNavLinks = useExternalNavLinks();
   const handleLinkClick = () => {
@@ -80,7 +81,7 @@ const SideNav = ({
             sx={{ color: "primary", width: "60px" }}
             onClick={handleLinkClick}
           >
-            <StaticImage alt="logo" src="../../images/logo_2.png" />
+            <StaticImage alt={t("logo")} src="../../images/logo_2.png" />
           </Link>
           <CloseButton
             sx={{

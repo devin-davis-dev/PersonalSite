@@ -47,7 +47,7 @@ interface ProjectPageProps {
 }
 
 function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(["common", "projects"]);
   const { mdx: project, otherProjects: projects } = data;
   const { commits } = pageContext;
   const techLimit = 3;
@@ -120,7 +120,7 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
               {project.frontmatter.URL && (
                 <a target="_blanc" href={project.frontmatter.URL}>
                   <Button mt={3} variant="primary" mr={2}>
-                    View
+                    {t("view")}
                   </Button>
                 </a>
               )}{" "}
@@ -131,7 +131,7 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
                   href={project.frontmatter.githubURL}
                 >
                   <Button mt={3} variant="primary">
-                    GitHub Repo
+                    {t("github_repo")}
                   </Button>
                 </a>
               ) : (
@@ -139,9 +139,9 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
                   mt={3}
                   variant="primary"
                   disabled
-                  title="Source code is not publicly available"
+                  title={t("source_code_unavailable")}
                 >
-                  GitHub Repo
+                  {t("github_repo")}
                 </Button>
               )}
             </Box>
@@ -153,14 +153,14 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
         <MDXProvider components={shortCodes}>{children}</MDXProvider>
         <CallToAction
           sx={{ mt: 5 }}
-          title="Thanks for checking out my project!"
-          content="Explore some of my other projects and see what I've been working on."
-          buttonText="Explore Other Projects"
+          title={t("projects:detail_cta_title")}
+          content={t("projects:detail_cta_content")}
+          buttonText={t("projects:detail_cta_button")}
           pageLink="/projects"
         />
         <Box as="section" sx={{ mt: 4 }}>
           <Heading as="h2" variant="subheading1">
-            Other Projects
+            {t("projects:other_projects")}
           </Heading>
           <Grid
             gap={3}
@@ -245,7 +245,7 @@ query ProjectBySlug($slug: String!, $language: String!) {
       }
     }
   }
-  locales: allLocale(filter: {ns: {in: ["common"]}, language: {eq: $language}}) {
+  locales: allLocale(filter: {ns: {in: ["common", "projects"]}, language: {eq: $language}}) {
     edges {
       node {
         ns
