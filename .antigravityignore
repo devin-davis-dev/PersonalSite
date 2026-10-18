@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.cache/
+public/
+
+# Deployment
+.netlify/
+
+# Test mocks and fixtures
+__mocks__/
+mockup/
+
+# Lock files (too large)
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.*
+
+# Git
+.git/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
