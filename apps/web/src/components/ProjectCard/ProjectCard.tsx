@@ -16,26 +16,32 @@ export interface ProjectCardProps {
   project: Project;
   stacked?: boolean;
   layout?: "horizontal" | "stacked";
+  variant?: string;
+  className?: string;
+  id?: string;
   sx?: ThemeUIStyleObject;
-  [key: string]: any;
 }
 
 const ProjectCard = ({
   project,
   stacked = false,
   layout,
+  variant,
+  className,
+  id,
   sx,
-  ...props
 }: ProjectCardProps) => {
   const { t } = useTranslation("common");
   const cardImage = project.image1 ? getImage(project.image1) : null;
   const isStacked = Boolean(
-    stacked || layout === "stacked" || props.variant === "stacked",
+    stacked || layout === "stacked" || variant === "stacked",
   );
 
   return (
     <Card
-      variant="primary"
+      id={id}
+      className={className}
+      variant={variant || "primary"}
       sx={{
         color: "white",
         height: isStacked ? "100%" : "max-content",
@@ -48,7 +54,6 @@ const ProjectCard = ({
         mb: 3,
         ...sx,
       }}
-      {...props}
     >
       {(project.status === "ongoing" || project.status === "complete") && (
         <Box

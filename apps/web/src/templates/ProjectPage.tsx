@@ -2,6 +2,7 @@ import { MDXProvider } from "@mdx-js/react";
 import { graphql } from "gatsby";
 import { useTranslation } from "gatsby-plugin-react-i18next";
 import { DateTime } from "luxon";
+import { useMemo } from "react";
 import {
   Box,
   Button,
@@ -26,13 +27,22 @@ import type { Commit } from "../types";
 
 const shortCodes = { ...globalCodes, ProjectSection, TechListing };
 
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+/**
+ * Deterministically samples a subset of items from an array based on a string seed.
+ * Produces consistent selections between SSR and client-side hydration.
+ */
+function sampleBySeed<T>(array: T[], limit = 3, seed?: string): T[] {
+  if (!array || array.length <= limit) return array || [];
+  let hash = 0;
+  if (seed) {
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash << 5) - hash + seed.charCodeAt(i);
+      hash |= 0;
+    }
   }
-  return shuffled;
+  const startIndex = Math.abs(hash) % array.length;
+  const rotated = [...array.slice(startIndex), ...array.slice(0, startIndex)];
+  return rotated.slice(0, limit);
 }
 
 interface ProjectPageProps {
@@ -50,14 +60,14 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
   const { t } = useTranslation(["common", "projects"]);
   const { mdx: project, otherProjects: projects } = data;
   const { commits } = pageContext;
-  const techLimit = 3;
 
-  const randomProjects = shuffleArray(projects.edges)
-    .slice(0, 3)
-    .map((project: any) => {
-      project.node.frontmatter.technologies.slice(0, techLimit);
-      return project;
-    });
+  const recommendedProjects = useMemo(() => {
+    return sampleBySeed(
+      projects?.edges || [],
+      3,
+      pageContext.slug || project?.frontmatter?.title,
+    );
+  }, [projects?.edges, pageContext.slug, project?.frontmatter?.title]);
 
   return (
     <Layout>
@@ -167,7 +177,7 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
             columns={[1, 1, 2, 2, 3]}
             sx={{ mt: 2, alignItems: "stretch" }}
           >
-            {randomProjects.map(({ node }) => (
+            {recommendedProjects.map(({ node }: any) => (
               <ProjectCard
                 key={node.frontmatter.title}
                 stacked
