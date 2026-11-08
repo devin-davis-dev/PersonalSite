@@ -3,7 +3,7 @@ name: code-review
 description: >-
   Reviews, validates, and systematically applies project architectural rules and
   coding standards across the codebase (such as extracting Theme UI inline styles
-  into typed ThemeUIStyleObject variables). Modularly extensible with additional rules,
+  into typed ThemeUIStyleObject variables and enforcing explicit props passing without JSX spreading). Modularly extensible with additional rules,
   strictly scoped to the working branch and its diff against main/master.
 ---
 
@@ -22,7 +22,10 @@ This skill inspects your codebase, identifies deviations from project architectu
 | Rule ID | Name | Target Scope | Status | Specification |
 | :--- | :--- | :--- | :--- | :--- |
 | **RULE-001** | Theme UI Style Variables Extraction | Branch diff $\cap$ `apps/web/src/**/*.tsx` | **Active** | [RULE-001 Spec](./rules/001-theme-ui-style-variables.md) |
-| **RULE-002** | *Reserved for next rule* | Branch diff $\cap$ *TBD* | *Planned* | - |
+| **RULE-002** | Explicit Props Passing (Disallow Spreading) | Branch diff $\cap$ `apps/web/src/**/*.tsx` | **Active** | [RULE-002 Spec](./rules/002-explicit-props-passing.md) |
+| **RULE-003** | Component Purity & Render Determinism | Branch diff $\cap$ `apps/web/src/**/*.tsx` | **Active** | [RULE-003 Spec](./rules/003-component-purity-and-determinism.md) |
+| **RULE-004** | Behavioral & Cause-and-Effect Testing | Branch diff $\cap$ `apps/web/src/**/*.test.tsx` | **Active** | [RULE-004 Spec](./rules/004-behavioral-testing.md) |
+| **RULE-005** | *Reserved for next rule* | Branch diff $\cap$ *TBD* | *Planned* | - |
 
 ---
 
