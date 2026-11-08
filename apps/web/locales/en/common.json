@@ -30,5 +30,8 @@
   "github_repo": "GitHub Repo",
   "source_code_unavailable": "Source code is not publicly available",
   "read_more_articles": "Read More Articles",
-  "post_prefix": "Post - {{title}}"
+  "post_prefix": "Post - {{title}}",
+  "collapsible_default_title": "TL;DR: Quick Setup Cheat Sheet",
+  "collapsible_expand": "Expand",
+  "collapsible_collapse": "Collapse"
 }
