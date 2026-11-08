@@ -30,5 +30,8 @@
   "github_repo": "Dépôt GitHub",
   "source_code_unavailable": "Le code source n'est pas disponible publiquement",
   "read_more_articles": "Lire plus d'articles",
-  "post_prefix": "Article - {{title}}"
+  "post_prefix": "Article - {{title}}",
+  "collapsible_default_title": "TL;DR : Fiche de configuration rapide",
+  "collapsible_expand": "Développer",
+  "collapsible_collapse": "Réduire"
 }
