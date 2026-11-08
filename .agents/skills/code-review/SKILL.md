@@ -2,18 +2,19 @@
 name: code-review
 description: >-
   Reviews, validates, and systematically applies project architectural rules and
-  coding standards across the codebase (such as extracting Theme UI inline styles
-  into typed ThemeUIStyleObject variables and enforcing explicit props passing without JSX spreading). Modularly extensible with additional rules,
-  strictly scoped to the working branch and its diff against main/master.
+  coding standards across the codebase by fanning out dedicated subagents per rule
+  (such as extracting Theme UI inline styles into typed ThemeUIStyleObject variables
+  and enforcing explicit props passing without JSX spreading). Modularly extensible with
+  additional rules, strictly scoped to the working branch and its diff against main/master.
 ---
 
 # Code Review Engine (`code-review`)
 
-This skill inspects your codebase, identifies deviations from project architectural and coding standards, and applies standardized refactorings rule-by-rule.
+This skill inspects your codebase, identifies deviations from project architectural and coding standards, and applies standardized refactorings rule-by-rule by orchestrating concurrent subagents.
 
 > [!IMPORTANT]
 > **Branch & Diff Scoping Principle**:
-> Every rule in this skill is **strictly scoped to the specific branch being worked on and its diff against `main`/`master`** (including staged, unstaged, and untracked changes). Reviews and transformations must not touch unaffected legacy files across the repository unless explicitly commanded.
+> Every rule in this skill is **strictly scoped to the specific branch being worked on and its diff against `main`/`master`** (including staged, unstaged, and untracked changes). Reviews and transformations must not touch unaffected legacy files across the repository unless explicitly commanded (e.g. during an explicit full codebase scan).
 
 ---
 
@@ -29,21 +30,27 @@ This skill inspects your codebase, identifies deviations from project architectu
 
 ---
 
-## 2. Execution Workflow
+## 2. Multi-Agent Orchestration Workflow (Fan-Out / Fan-In)
 
-When running this skill, execute the following cycle:
+When running this skill, the lead orchestrator coordinates inspection and refactoring by fanning out specialized subagents for each active rule in parallel:
 
 ```mermaid
 flowchart TD
-    A["1. Determine Branch Diff Scope"] --> B["2. Iterate Over Active Rules"]
-    B --> C["3. Scan Diff Hunks for Violations"]
-    C --> D["4. Apply Rule Transformations"]
-    D --> E["5. Run Quality Verification"]
-    E --> F["6. Report Changes & Summary"]
+    A["1. Determine Target Scope (Diff or Full Scan)"] --> B["2. Fan Out Dedicated Subagents per Rule"]
+    B --> C1["Subagent: RULE-001 Reviewer (Theme UI Styles)"]
+    B --> C2["Subagent: RULE-002 Reviewer (Explicit Props Passing)"]
+    B --> C3["Subagent: RULE-003 Reviewer (Component Purity & Determinism)"]
+    B --> C4["Subagent: RULE-004 Reviewer (Behavioral Testing)"]
+    C1 --> D["3. Aggregate Findings & Synthesize Transformations (Fan-In)"]
+    C2 --> D
+    C3 --> D
+    C4 --> D
+    D --> E["4. Execute Unified Quality Verification"]
+    E --> F["5. Consolidated Summary & Report"]
 ```
 
-### Step 1: Determine Branch Diff Scope
-Always scope the review to the files modified on the working branch relative to the primary base branch (`main` or `master`):
+### Step 1: Determine Review Scope
+Scope the review to the files modified on the working branch relative to the primary base branch (`main` or `master`), unless an explicit full-codebase scan was commanded:
 
 1. **Detect Primary Base Branch**:
    Check whether the repository uses `main` or `master`:
@@ -54,38 +61,45 @@ Always scope the review to the files modified on the working branch relative to 
                  echo "master")
    ```
 
-2. **Collect Changed Files in Branch Diff**:
-   Find all files committed on the current branch since branching off `$BASE_BRANCH`, plus any uncommitted staged, unstaged, or untracked files:
-   ```bash
-   MERGE_BASE=$(git merge-base HEAD "$BASE_BRANCH" 2>/dev/null || echo "$BASE_BRANCH")
-   
-   # Committed branch diff + uncommitted changes:
-   git diff --name-only "$MERGE_BASE"
-   
-   # Include untracked files:
-   git status --porcelain
-   ```
+2. **Collect Target Files**:
+   - **Branch Diff Mode (Default)**: Collect committed branch changes plus unstaged/untracked modifications:
+     ```bash
+     MERGE_BASE=$(git merge-base HEAD "$BASE_BRANCH" 2>/dev/null || echo "$BASE_BRANCH")
+     git diff --name-only "$MERGE_BASE"
+     git status --porcelain
+     ```
+   - **Full Scan Mode (Explicit Command Only)**: Find all matching files across `apps/web/src/`.
 
 3. **Intersect with Rule File Patterns**:
-   Filter the collected diff list against the rule's target file pattern (e.g., matching `apps/web/src/**/*.tsx` for `RULE-001`). Only files present in both the branch diff and the rule's target pattern are inspected.
+   Filter the candidate files against each rule's target file pattern (e.g., matching `apps/web/src/**/*.tsx` for `RULE-001` or `*.test.tsx` for `RULE-004`).
 
-### Step 2: Iterate Over Active Rules
-Process each active rule in sequence from the [Active Rule Registry](#1-active-rule-registry):
-1. Load the corresponding rule specification in `./rules/<rule-file>.md`.
-2. Review the trigger conditions, transformation patterns, and exceptions.
+### Step 2: Fan Out Dedicated Subagents per Rule (Parallel Fan-Out)
+For each active rule in the registry with matching scoped files, the orchestrator invokes a specialized subagent using `invoke_subagent`:
 
-### Step 3: Scan Diff Hunks for Violations
-- For each file in the branch diff, inspect the added or modified lines (`git diff -U0 "$MERGE_BASE" -- <file>` or modified file contents).
-- Identify deviations from the active rule within the newly introduced or edited code.
-- Avoid introducing churn or large refactorings into unrelated, untouched sections of existing files unless necessary to satisfy the rule in the modified code.
+1. **Subagent Configuration**:
+   - **`TypeName`**: `"self"` (for refactoring with edit tools) or `"research"` (for read-only analysis).
+   - **`Role`**: Descriptive role title specific to the rule, e.g.:
+     - `RULE-001 Style Specialist`
+     - `RULE-002 Props Reviewer`
+     - `RULE-003 Purity Auditor`
+     - `RULE-004 Test Auditor`
+   - **`Prompt`**: Must contain:
+     - The path to the specific rule specification in `./rules/<rule-file>.md`.
+     - The exact list of target files or diff hunks to evaluate.
+     - Instructions to scan for violations according to the trigger conditions and exceptions.
+     - Directive to report precise line numbers, code snippets, and either apply the transformations directly or return concrete patch plans.
 
-### Step 4: Apply Rule Transformations
-- Perform atomic edits using `edit_file` to refactor the code according to the rule pattern.
-- Preserve all existing comments, docstrings, and unrelated logic.
-- Ensure all newly extracted variables and helper functions are properly typed.
+2. **Concurrent Execution**:
+   - Dispatch all subagents in parallel.
+   - Subagents run autonomously in the background; the orchestrator waits for completion notifications via reactive wakeups without polling.
 
-### Step 5: Execute Quality Verification
-After applying the transformations, run the standard quality gates:
+### Step 3: Fan-In & Transformation Synthesis
+- Aggregate the reported violations and refactoring results from all subagents.
+- If multiple subagents touch the same file or overlapping hunks, reconcile the changes sequentially to prevent write conflicts.
+- Ensure all extracted helpers, styles, or props strictly adhere to TypeScript typing and preserve existing docstrings and comments.
+
+### Step 4: Execute Unified Quality Verification
+Once all rule transformations are merged, run the repository quality gates:
 
 ```bash
 # 1. TypeScript type check
@@ -98,12 +112,12 @@ pnpm run biome:lint
 pnpm run test
 ```
 
-### Step 6: Summary & Report
-Provide a structured report listing:
-- Branch name and base branch used for diff comparison.
-- Files evaluated within the diff.
-- Rules applied and specific transformations performed.
-- Quality gate verification results.
+### Step 5: Consolidated Summary & Report
+Provide a comprehensive report detailing:
+- Scope mode (Branch diff against base branch, or full codebase scan).
+- Subagents dispatched and their respective rule assignments.
+- Rule-by-rule findings, violations detected, and files transformed (with clickable links).
+- Verification results from the quality gates.
 
 ---
 
