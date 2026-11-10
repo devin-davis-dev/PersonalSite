@@ -2,9 +2,9 @@ import { type PageProps, graphql } from "gatsby";
 import { useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Grid, Heading, Text } from "theme-ui";
 
-import PostCard from "../components/PostCard/PostCard";
-import Seo from "../components/Seo/Seo";
-import Layout from "../components/app/Layout";
+import { PostCard } from "../components/blog/PostCard";
+import { Layout } from "../components/layout/Layout";
+import { Seo } from "../components/ui/Seo";
 import type { BlogPost } from "../types";
 
 interface AllPostsPageData {

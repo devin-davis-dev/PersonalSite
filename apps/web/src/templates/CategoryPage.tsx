@@ -2,10 +2,10 @@ import { type PageProps, graphql } from "gatsby";
 import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Button, Grid, Heading, Text } from "theme-ui";
 
-import PostCard from "../components/PostCard/PostCard";
-import Seo from "../components/Seo/Seo";
-import Layout from "../components/app/Layout";
-import PageContentWrapper from "../layouts/PageWrapper";
+import { PostCard } from "../components/blog/PostCard";
+import { Layout } from "../components/layout/Layout";
+import { PageContentWrapper } from "../components/layout/PageWrapper";
+import { Seo } from "../components/ui/Seo";
 import type { BlogPost } from "../types";
 
 interface CategoryPageData {

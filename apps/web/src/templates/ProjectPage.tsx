@@ -12,14 +12,14 @@ import {
   Text,
   type ThemeUIStyleObject,
 } from "theme-ui";
-import CallToAction from "../components/CallToAction";
-import CommitLog from "../components/CommitLog/CommitLog";
-import ProjectCard from "../components/ProjectCard/ProjectCard";
-import { ProjectSection } from "../components/ProjectSection/ProjectSection";
-import Seo from "../components/Seo/Seo";
-import { TechListing } from "../components/TechListing/TechListing";
-import Layout from "../components/app/Layout";
-import PageContentWrapper from "../layouts/PageWrapper";
+import { Layout } from "../components/layout/Layout";
+import { PageContentWrapper } from "../components/layout/PageWrapper";
+import { CommitLog } from "../components/projects/CommitLog";
+import { ProjectCard } from "../components/projects/ProjectCard";
+import { ProjectSection } from "../components/projects/ProjectSection";
+import { TechListing } from "../components/projects/TechListing";
+import { CallToAction } from "../components/ui/CallToAction";
+import { Seo } from "../components/ui/Seo";
 import globalCodes from "../short-codes";
 
 import type React from "react";

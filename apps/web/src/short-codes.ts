@@ -1,7 +1,9 @@
 import React from "react";
-import { Citation, Reference, ReferenceList } from "./components/Citations";
-import Collapsible from "./components/Collapsible/Collapsible";
-import ImageWrapper from "./components/ImageWrapper/ImageWrapper";
+import { Citation } from "./components/blog/Citation";
+import { Collapsible } from "./components/blog/Collapsible";
+import { ImageWrapper } from "./components/blog/ImageWrapper";
+import { Reference } from "./components/blog/Reference";
+import { ReferenceList } from "./components/blog/ReferenceList";
 
 const ExternalLink = (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   const isExternal =
