@@ -3,11 +3,12 @@ import { Link as I18nLink, useTranslation } from "gatsby-plugin-react-i18next";
 import { useCallback, useRef, useState } from "react";
 import { Box, Grid, Heading, Link, Paragraph } from "theme-ui";
 
-import ContactForm, {
+import {
+  ContactForm,
   type ContactFormHandle,
-} from "../components/ContactForm/ContactForm";
-import Seo from "../components/Seo/Seo";
-import Layout from "../components/app/Layout";
+} from "../components/contact/ContactForm";
+import { Layout } from "../components/layout/Layout";
+import { Seo } from "../components/ui/Seo";
 
 const ContactPage = () => {
   const { t } = useTranslation("contact");

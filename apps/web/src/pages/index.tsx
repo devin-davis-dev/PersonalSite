@@ -5,14 +5,14 @@ import { Box, Button, Flex, Grid, Heading, Text } from "theme-ui";
 
 import type { PageProps } from "gatsby";
 import booksData from "../../content/books.json";
-import BookCard from "../components/BookCard/BookCard";
-import CallToAction from "../components/CallToAction";
-import Loader from "../components/Loader";
-import PostCard from "../components/PostCard/PostCard";
-import ProjectCard from "../components/ProjectCard/ProjectCard";
-import Seo from "../components/Seo/Seo";
-import Tooltip from "../components/Tooltip/Tooltip";
-import Layout from "../components/app/Layout";
+import { PostCard } from "../components/blog/PostCard";
+import { BookCard } from "../components/landing/BookCard";
+import { Layout } from "../components/layout/Layout";
+import { ProjectCard } from "../components/projects/ProjectCard";
+import { CallToAction } from "../components/ui/CallToAction";
+import { Loader } from "../components/ui/Loader";
+import { Seo } from "../components/ui/Seo";
+import { Tooltip } from "../components/ui/Tooltip";
 import type { BlogPost, Book, Project } from "../types";
 import { getYearsOfExperience } from "../utils/experience";
 

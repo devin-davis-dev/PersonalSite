@@ -5,9 +5,9 @@ import { DateTime } from "luxon";
 import type React from "react";
 import { Box, Button, Flex, Heading, Text } from "theme-ui";
 
-import { CitationProvider } from "../components/Citations";
-import Seo from "../components/Seo/Seo";
-import Layout from "../components/app/Layout";
+import { CitationProvider } from "../components/blog/CitationContext";
+import { Layout } from "../components/layout/Layout";
+import { Seo } from "../components/ui/Seo";
 import globalCodes from "../short-codes";
 
 function HorizontalImages({ children }: { children: any[] }) {

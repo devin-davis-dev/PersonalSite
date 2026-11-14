@@ -2,9 +2,9 @@ import { graphql } from "gatsby";
 import { useTranslation } from "gatsby-plugin-react-i18next";
 import { Box, Button, Heading, Paragraph, Link as ThemeLink } from "theme-ui";
 
-import Seo from "../components/Seo/Seo";
-import Layout from "../components/app/Layout";
-import PageContentWrapper from "../layouts/PageWrapper";
+import { Layout } from "../components/layout/Layout";
+import { PageContentWrapper } from "../components/layout/PageWrapper";
+import { Seo } from "../components/ui/Seo";
 
 const ENTE_ALBUM_URL =
   "https://embed.ente.io/?t=uAFNNGB7#8hcNmSB47YPpmYWgZRggLsxdqnGxnmAqu7BRQCrNYJwB";

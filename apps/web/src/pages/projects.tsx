@@ -3,11 +3,11 @@ import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { useState } from "react";
 import { Box, Heading, Paragraph } from "theme-ui";
 
-import CallToAction from "../components/CallToAction";
-import FilterBar from "../components/FilterBar";
-import ProjectCard from "../components/ProjectCard/ProjectCard";
-import Seo from "../components/Seo/Seo";
-import Layout from "../components/app/Layout";
+import { Layout } from "../components/layout/Layout";
+import { ProjectCard } from "../components/projects/ProjectCard";
+import { CallToAction } from "../components/ui/CallToAction";
+import { FilterBar } from "../components/ui/FilterBar";
+import { Seo } from "../components/ui/Seo";
 import type { Project } from "../types";
 
 const keywords = [

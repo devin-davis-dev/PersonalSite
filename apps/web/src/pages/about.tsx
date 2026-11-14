@@ -4,13 +4,13 @@ import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import { useRef, useState } from "react";
 import { Box, Grid, Heading, Paragraph, Text } from "theme-ui";
 
-import CallToAction from "../components/CallToAction";
-import Seo from "../components/Seo/Seo";
-import SkillsChart from "../components/SkillsChart/SkillsChart";
-import { TechListing } from "../components/TechListing/TechListing";
-import Layout from "../components/app/Layout";
-import ProjectDialog from "../components/dialogs/ProjectDialog";
-import PageContentWrapper from "../layouts/PageWrapper";
+import { SkillsChart } from "../components/about/SkillsChart";
+import { Layout } from "../components/layout/Layout";
+import { PageContentWrapper } from "../components/layout/PageWrapper";
+import { ProjectDialog } from "../components/projects/ProjectDialog";
+import { TechListing } from "../components/projects/TechListing";
+import { CallToAction } from "../components/ui/CallToAction";
+import { Seo } from "../components/ui/Seo";
 import type { Technology } from "../types";
 
 interface AboutPageData {
