@@ -45,12 +45,7 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
       image: File @fileByRelativePath
     }
 
-    type MdxFrontmatter {
-      title: String
-      date: Date
-      draft: Boolean
-      category: String
-      githubURL: String
+    type MdxFrontmatter @infer {
       thumbnail: File @fileByRelativePath
       image1: File @fileByRelativePath
       image2: File @fileByRelativePath
