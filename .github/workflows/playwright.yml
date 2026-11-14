@@ -10,13 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
     - name: Install pnpm
       uses: pnpm/action-setup@v4
+      with:
+        version: 12
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: 'pnpm'
     - name: Install dependencies
-      run: pnpm install
+      run: pnpm install --frozen-lockfile
     - name: Install Playwright Browsers
       run: pnpm --filter web exec playwright install --with-deps
     - name: Build Gatsby site
@@ -29,3 +33,4 @@ jobs:
         name: playwright-report
         path: apps/web/playwright-report/
         retention-days: 30
+        if-no-files-found: ignore

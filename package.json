@@ -2,6 +2,7 @@
   "name": "personal-site-monorepo",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "pnpm@12.11.2",
   "description": "Devin Davis Personal Site Monorepo",
   "author": "Devin",
   "scripts": {
