@@ -36,6 +36,32 @@ async function fetchCommits(githubURL: string): Promise<Commit[]> {
   }
 }
 
+export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] =
+  ({ actions }) => {
+    actions.createTypes(`
+    type Technology {
+      name: String
+      category: String
+      image: File @fileByRelativePath
+    }
+
+    type MdxFrontmatter {
+      title: String
+      date: Date
+      draft: Boolean
+      category: String
+      githubURL: String
+      thumbnail: File @fileByRelativePath
+      image1: File @fileByRelativePath
+      image2: File @fileByRelativePath
+      image3: File @fileByRelativePath
+      image4: File @fileByRelativePath
+      image5: File @fileByRelativePath
+      technologies: [Technology]
+    }
+  `);
+  };
+
 export const createPages: GatsbyNode["createPages"] = async ({
   actions,
   graphql,
