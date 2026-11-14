@@ -96,12 +96,15 @@ const ContactPage = () => {
                 <Link
                   variant="text"
                   target="_blank"
+                  rel="noopener noreferrer"
                   href="https://www.linkedin.com/in/devin-dev-d-63008412b"
+                  aria-label="Devin Davis on LinkedIn"
                 >
                   LinkedIn
                 </Link>
                 {t("sidebar_text_3")}
                 <Link
+                  href="#contact-form"
                   sx={{
                     color: "blue",
                     textDecoration: "underline",

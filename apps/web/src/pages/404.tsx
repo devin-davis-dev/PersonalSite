@@ -65,7 +65,7 @@ const NotFoundPage = () => {
             mt: 4,
           }}
         >
-          <Link to="/">
+          <Link to="/" aria-label={`${t("go_home")}`}>
             <Button variant="primary">{t("go_home")}</Button>
           </Link>
           <Link to="/blog">

@@ -37,7 +37,7 @@ export const CallToAction = ({
         {content}
       </Text>
       <Box sx={{ mt: 4 }}>
-        <Link to={pageLink}>
+        <Link to={pageLink} aria-label={`${buttonText}: ${title}`}>
           <Button variant="primary">{buttonText}</Button>
         </Link>
       </Box>

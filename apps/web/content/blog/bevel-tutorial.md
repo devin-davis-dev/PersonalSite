@@ -68,7 +68,7 @@ vault server -config=config.hcl
 
 6. Click copy the keys. Then click Continue to Unseal. Provide the unseal key first and then the root token to login. Keep a copy of these keys for later reference.
 
-7. Get your local IP Address for Vault. Follow [this guide](https://www.avast.com/c-how-to-find-ip-address) to get your machine's local IP Address.
+7. Get your local IP Address for Vault. Follow [Avast's IP address guide](https://www.avast.com/c-how-to-find-ip-address) to get your machine's local IP Address.
 
 8. In a new terminal, execute the following :
 
@@ -83,7 +83,7 @@ export VAULT_TOKEN="<Your Vault root token>"
    vault secrets enable -version=2 -path=secretsv2 kv
 ```
 
-10. Visit the documentation and [take the basic tutorial](https://developer.hashicorp.com/vault/tutorials/get-started).
+10. Visit the documentation and [take the HashiCorp Vault basic tutorial](https://developer.hashicorp.com/vault/tutorials/get-started).
 
 ## Step c: Setup Minikube
 
@@ -100,7 +100,7 @@ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-a
 minikube start --memory 12000 --cpus 4 --kubernetes-version=1.23.1 --apiserver-ips=<specify public ip of VM>
 ```
 
-3. [Visit the documentation](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download).
+3. [Visit the Minikube documentation](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download).
 
 ## Step d: Fork Bevel
 
@@ -120,7 +120,7 @@ git checkout -b local
 git push --set-upstream origin local
 ```
 
-3. [Visit the documentation](https://hyperledger-bevel.readthedocs.io/en/latest/).
+3. [Visit the Hyperledger Bevel documentation](https://hyperledger-bevel.readthedocs.io/en/latest/).
 
 ### Step e: Setup Bevel
 

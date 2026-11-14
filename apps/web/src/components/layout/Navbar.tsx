@@ -96,7 +96,11 @@ export const Navbar = memo(function Navbar() {
           }}
         >
           <Flex sx={{ alignItems: "center" }}>
-            <Link to="/" sx={{ width: "60px", mr: [0, 4], flexShrink: 0 }}>
+            <Link
+              to="/"
+              aria-label={`${t("nav_home")}`}
+              sx={{ width: "60px", mr: [0, 4], flexShrink: 0 }}
+            >
               <Box className="nav-triangle" />
               <Box sx={{ filter: isScrolledTop ? "none" : "brightness(0)" }}>
                 <StaticImage alt={t("logo")} src="../../images/logo.png" />

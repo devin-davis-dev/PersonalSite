@@ -78,6 +78,7 @@ export const SideNav = ({
         >
           <Link
             to="/"
+            aria-label={`${t("nav_home")}`}
             sx={{ color: "primary", width: "60px" }}
             onClick={handleLinkClick}
           >

@@ -11,7 +11,7 @@ The ultimate power of DevOps lies in the full automation of deployment pipelines
 
 # Prerequisites
 
-- Review my [previous tutorial](/blog/) on setting up flux before continuing. Though this tutorial will provide a script to fully automate the previous tutorials.
+- Review my [Flux setup tutorial](/blog/) before continuing. Though this tutorial will provide a script to fully automate the previous tutorials.
 
 # The Script
 

@@ -50,7 +50,11 @@ export const Footer = () => {
           <Text variant="small" sx={{ color: "white" }}>
             {t("footer_contact_text")}
           </Text>
-          <Link to="/contact" sx={{ display: "block", mt: 3 }}>
+          <Link
+            to="/contact"
+            aria-label={`${t("footer_contact_button")}`}
+            sx={{ display: "block", mt: 3 }}
+          >
             <Button variant="secondary">{t("footer_contact_button")}</Button>
           </Link>
         </Box>

@@ -1,6 +1,26 @@
 import { Link, useTranslation } from "gatsby-plugin-react-i18next";
 import type React from "react";
-import { Button, Flex, Heading, Text } from "theme-ui";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Text,
+  type ThemeUIStyleObject,
+} from "theme-ui";
+
+const visuallyHiddenStyle: ThemeUIStyleObject = {
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: "1px",
+  margin: "-1px",
+  overflow: "hidden",
+  padding: 0,
+  position: "absolute",
+  width: "1px",
+  whiteSpace: "nowrap",
+  wordWrap: "normal",
+};
 
 export interface PostCategoryCardProps {
   title: React.ReactNode;
@@ -14,6 +34,8 @@ export function PostCategoryCard({
   link,
 }: PostCategoryCardProps) {
   const { t } = useTranslation("common");
+  const categoryTitle = typeof title === "string" ? title : link;
+
   return (
     <Flex
       sx={{
@@ -34,8 +56,17 @@ export function PostCategoryCard({
           {content}
         </Text>
       )}
-      <Link to={link} sx={{ textDecoration: "none", color: "white" }}>
-        <Button sx={{ display: "block" }}>{t("read")}</Button>
+      <Link
+        to={link}
+        aria-label={`${t("read_category", { category: categoryTitle })}`}
+        sx={{ textDecoration: "none", color: "white" }}
+      >
+        <Button sx={{ display: "block" }}>
+          {t("read")}
+          <Box as="span" sx={visuallyHiddenStyle}>
+            : {title}
+          </Box>
+        </Button>
       </Link>
     </Flex>
   );

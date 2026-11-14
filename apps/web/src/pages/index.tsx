@@ -106,7 +106,7 @@ const IndexPage = ({ data }: PageProps<any>) => {
                     top: "0px",
                   }}
                 >
-                  <Link to="/contact">
+                  <Link to="/contact" aria-label={`${t("lets_chat")}`}>
                     <Button variant="primary">{t("lets_chat")}</Button>
                   </Link>
                 </Flex>
@@ -184,7 +184,7 @@ const IndexPage = ({ data }: PageProps<any>) => {
                       },
                     }}
                   >
-                    {t("learn_more")}
+                    {t("learn_more_about_work")}
                   </Link>
                   {t("intro_text_3")}
                   <Link

@@ -25,4 +25,4 @@ In order to use the graph protocol you simply utilize meta tags on your web page
 <meta property="og:updated_time" content="2024-11-21T12:00:00Z" />
 ```
 
-You can learn more about OGP on their [website](https://ogp.me/).
+You can learn more about OGP on the [official Open Graph Protocol website](https://ogp.me/).

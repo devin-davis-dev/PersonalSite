@@ -27,6 +27,19 @@ import type { Commit } from "../types";
 
 const shortCodes = { ...globalCodes, ProjectSection, TechListing };
 
+const visuallyHiddenStyle: ThemeUIStyleObject = {
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: "1px",
+  margin: "-1px",
+  overflow: "hidden",
+  padding: 0,
+  position: "absolute",
+  width: "1px",
+  whiteSpace: "nowrap",
+  wordWrap: "normal",
+};
+
 /**
  * Deterministically samples a subset of items from an array based on a string seed.
  * Produces consistent selections between SSR and client-side hydration.
@@ -128,9 +141,19 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
             <Box>
               {" "}
               {project.frontmatter.URL && (
-                <a target="_blanc" href={project.frontmatter.URL}>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={project.frontmatter.URL}
+                  aria-label={`${t("view_live_project", {
+                    title: project.frontmatter.title,
+                  })}`}
+                >
                   <Button mt={3} variant="primary" mr={2}>
                     {t("view")}
+                    <Box as="span" sx={visuallyHiddenStyle}>
+                      : {project.frontmatter.title}
+                    </Box>
                   </Button>
                 </a>
               )}{" "}
@@ -139,9 +162,15 @@ function ProjectPage({ data, children, pageContext }: ProjectPageProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   href={project.frontmatter.githubURL}
+                  aria-label={`${t("view_github_repo", {
+                    title: project.frontmatter.title,
+                  })}`}
                 >
                   <Button mt={3} variant="primary">
                     {t("github_repo")}
+                    <Box as="span" sx={visuallyHiddenStyle}>
+                      : {project.frontmatter.title}
+                    </Box>
                   </Button>
                 </a>
               ) : (

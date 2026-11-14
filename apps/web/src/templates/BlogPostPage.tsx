@@ -102,7 +102,7 @@ const BlogPostPage = ({ data, children }: BlogPostPageProps) => {
           <MDXProvider components={shortCodes}>{children}</MDXProvider>
         </CitationProvider>
         <Box sx={{ textAlign: "center" }}>
-          <Link to="/blog">
+          <Link to="/blog" aria-label={`${t("read_more_articles")}`}>
             <Button>{t("read_more_articles")}</Button>
           </Link>
         </Box>

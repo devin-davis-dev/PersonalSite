@@ -12,6 +12,19 @@ import {
 import type { Project } from "../../types";
 import { TechListing } from "./TechListing";
 
+const visuallyHiddenStyle: ThemeUIStyleObject = {
+  border: 0,
+  clip: "rect(0 0 0 0)",
+  height: "1px",
+  margin: "-1px",
+  overflow: "hidden",
+  padding: 0,
+  position: "absolute",
+  width: "1px",
+  whiteSpace: "nowrap",
+  wordWrap: "normal",
+};
+
 export interface ProjectCardProps {
   project: Project;
   stacked?: boolean;
@@ -133,13 +146,19 @@ export const ProjectCard = ({
           <Box
             sx={{ mt: isStacked ? "auto" : undefined, pt: isStacked ? 3 : 0 }}
           >
-            <Link to={project.slug}>
+            <Link
+              to={project.slug}
+              aria-label={`${t("view_project", { title: project.title })}`}
+            >
               <Button
                 variant="secondary"
                 sx={{ mt: isStacked ? 0 : 3 }}
                 className="secondary-btn"
               >
                 {t("view")}
+                <Box as="span" sx={visuallyHiddenStyle}>
+                  : {project.title}
+                </Box>
               </Button>
             </Link>
           </Box>
