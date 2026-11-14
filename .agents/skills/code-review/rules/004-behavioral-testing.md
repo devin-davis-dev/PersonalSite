@@ -1,81 +1,133 @@
-# RULE-004: Behavioral & Cause-and-Effect Testing
+# RULE-004: Strict Behavioral Cause-and-Effect Testing
 
 ## Summary
-To ensure tests provide genuine confidence in software reliability, all unit tests in `apps/web` must verify component **behavior and state transitions (Cause $\rightarrow$ Effect)** rather than merely asserting that static text or DOM nodes are displayed.
+Unit tests in `apps/web` must **never test if something is rendered or displayed**. Asserting that static text, headings, images, landmarks, or DOM elements are mounted (`toBeInTheDocument()`, `toBeVisible()`) provides zero verification of software functionality.
+
+Instead, all unit tests must strictly verify **behavior: Cause $\rightarrow$ Effect**. Every test must simulate a concrete stimulus or action (Cause) and assert on the verifiable consequence (Effect).
 
 ---
 
 ## Scope & Applicability
 - **Target Files**: Test files added or modified in the current working branch diff against `main`/`master` matching `apps/web/src/**/*.test.tsx` (and `*.test.ts`, `*.spec.tsx`).
-- **Diff Constraint**: Do not rewrite existing legacy tests outside the branch diff. Enforce this rule on tests introduced or updated within the branch diff.
-- **Trigger Conditions**:
-  - Test cases that only assert static text existence (`expect(screen.getByText(...)).toBeInTheDocument()`) without simulating any user interaction, state change, or accessibility contract verification.
-  - Snapshot tests that solely capture static markup without exercising dynamic states.
-  - Tests asserting internal component implementation details (e.g. inspecting private component state or styling classes) instead of observable user outcomes.
+- **Diff Constraint**: Do not rewrite existing legacy tests outside the branch diff. Enforce this rule strictly on tests introduced or updated within the branch diff.
+- **Trigger Conditions (Disallowed Patterns)**:
+  - Asserting that static props, titles, descriptions, dates, or body text are rendered (`expect(screen.getByText(...)).toBeInTheDocument()`).
+  - Asserting that images, icons, containers, cards, or landmarks exist in the DOM without testing an interaction contract.
+  - Snapshot tests that capture static markup.
+  - Presence checks disguised as accessibility tests (e.g., merely checking `screen.getByRole("heading")` or `screen.getByRole("article")` without an interaction).
 
 ---
 
-## Core Principles
-
-### 1. Cause and Effect (Action $\rightarrow$ Outcome)
-Every interactive test must model a clear **Cause** (user action, system event, timer advancement) and assert on the observable **Effect** (UI update, accessibility attribute change, callback invocation, navigation):
+## Core Principles: Behavior = Cause $\rightarrow$ Effect
 
 ```mermaid
 flowchart LR
-    A["Initial Condition (State A)"] --> B["CAUSE: Trigger Action (click, change, scroll, timer)"]
-    B --> C["EFFECT: Observable Outcome (State B)"]
-    C --> D["CAUSE: Reverse Action (toggle back)"]
-    D --> E["EFFECT: Restored Outcome (State A)"]
+    A["Initial State"] --> B["CAUSE: User or System Action\n(click, keypress, submit, change, scroll, timer)"]
+    B --> C["EFFECT: Observable Consequence\n(navigation trigger, callback execution, state change, error response)"]
+    C --> D["CAUSE: Reverse Action or Subsequent Event\n(toggle close, cancel, error retry)"]
+    D --> E["EFFECT: Restored State or Follow-up Consequence"]
+```
+
+### 1. What Constitutes a "Cause"
+A test must trigger a clear, realistic action:
+- **User Input Actions**: `fireEvent.click`, `fireEvent.change`, `fireEvent.keyDown`, `fireEvent.submit`, `fireEvent.focus`, `fireEvent.blur`.
+- **System Events**: Fake timer advancement (`jest.advanceTimersByTime`), scroll events (`fireEvent.scroll`), window resize.
+- **Asynchronous Resolutions**: Network mock resolution (successful API response, network error, timeout).
+
+### 2. What Constitutes an "Effect"
+The assertion must verify an observable functional outcome:
+- **Navigation Invocation**: Clicking an actionable item (button, link, card) triggers navigation to the expected destination URL or dispatches the navigation event.
+- **Callback Invocation**: External props callbacks (`onClick`, `onSelect`, `onSubmit`, `onChange`) are invoked with exact expected arguments.
+- **Dynamic State Transitions**: A component changes its operational state (e.g. expands/collapses, opens/closes modal, enables/disables buttons, switches active tab).
+- **Validation & Error Handling**: Invalid user input causes validation errors to appear; successful recovery clears errors.
+- **Async Workflow Outcomes**: In-flight requests disable submit triggers; completed responses reveal confirmation screens.
+
+---
+
+## Standard Patterns by Component Category
+
+### 1. Navigational Items & Cards (e.g., `PostCard`, `ProjectCard`, `LinkCard`)
+Cards and listings are interactive gateways. Do **not** test that the card displays its title, date, excerpt, or image. Test the **navigation behavior**:
+
+#### ❌ Anti-pattern (Display / Render Testing)
+```tsx
+// ❌ WRONG: Tests if text and images are rendered. Zero behavior verified!
+it("renders post card with title and date", () => {
+  render(<PostCard post={mockPost} />);
+
+  expect(screen.getByText("My Post")).toBeInTheDocument();
+  expect(screen.getByText("November 2026")).toBeInTheDocument();
+  expect(screen.getByRole("img")).toBeInTheDocument();
+});
+```
+
+#### ✅ Compliant Pattern (Behavioral Cause $\rightarrow$ Effect)
+```tsx
+// ✅ RIGHT: Tests cause (click/keypress) and effect (navigation dispatch)
+it("triggers navigation to post slug when user clicks the read action", () => {
+  render(<PostCard post={mockPost} />);
+
+  const link = screen.getByRole("link", { name: "read_post" });
+  const button = screen.getByRole("button", { name: /read/i });
+
+  const handleNavigate = jest.fn((e) => e.preventDefault());
+  link.addEventListener("click", handleNavigate);
+
+  // CAUSE: User clicks the action button
+  fireEvent.click(button);
+
+  // EFFECT: Navigation is triggered for the specific post slug
+  expect(handleNavigate).toHaveBeenCalledTimes(1);
+  expect(link).toHaveAttribute("href", "/blog/my-post");
+});
+
+it("triggers navigation when activated via keyboard Enter", () => {
+  render(<PostCard post={mockPost} />);
+
+  const link = screen.getByRole("link", { name: "read_post" });
+  const handleNavigate = jest.fn((e) => e.preventDefault());
+  link.addEventListener("click", handleNavigate);
+
+  // CAUSE: User presses Enter on the link
+  fireEvent.keyDown(link, { key: "Enter", code: "Enter" });
+  fireEvent.click(link);
+
+  // EFFECT: Navigation executed
+  expect(handleNavigate).toHaveBeenCalledTimes(1);
+});
 ```
 
 ---
 
-### 2. Disallow Superficial Existence Testing as Sole Verification
-Asserting that static text appears in the DOM provides little value if the test never validates that the component actually functions.
+### 2. Interactive Toggleable / Expandable Components (e.g., `Collapsible`, `Dialog`, `SideNav`)
+Always test the **complete round-trip state transition**:
 
-#### Anti-pattern (Display-Only Test)
 ```tsx
-// ❌ Bad: Merely asserts that text is mounted. Tests zero behavior or functionality.
-it("renders the collapsible section", () => {
+it("toggles expanded state across complete open and close round-trip", () => {
   render(
-    <Collapsible title="Setup Guide">
-      <p>Body copy</p>
+    <Collapsible title="Preferences">
+      <p>Hidden settings</p>
     </Collapsible>,
   );
 
-  expect(screen.getByText("Setup Guide")).toBeInTheDocument();
-  expect(screen.getByText("Body copy")).toBeInTheDocument();
-});
-```
+  const button = screen.getByRole("button", { name: /Preferences/i });
+  const content = screen.getByText("Hidden settings").closest("section");
 
-#### Compliant Pattern (Cause-and-Effect Behavioral Test)
-```tsx
-// ✅ Good: Verifies initial state, action, and resulting state transition
-it("expands content on click and updates accessibility attributes", () => {
-  render(
-    <Collapsible title="Setup Guide">
-      <p>Hidden body text</p>
-    </Collapsible>,
-  );
-
-  const button = screen.getByRole("button", { name: /Setup Guide/i });
-  const content = screen.getByText("Hidden body text").closest("section");
-
-  // Initial State: Section is collapsed and content is hidden
+  // Initial State: Hidden
   expect(button).toHaveAttribute("aria-expanded", "false");
   expect(content).toHaveAttribute("hidden");
 
-  // CAUSE: User clicks the button to expand
+  // CAUSE 1: User clicks to expand
   fireEvent.click(button);
 
-  // EFFECT: State changes to expanded, content is revealed
+  // EFFECT 1: State transitions to expanded
   expect(button).toHaveAttribute("aria-expanded", "true");
   expect(content).not.toHaveAttribute("hidden");
 
-  // CAUSE: User clicks again to collapse (round-trip verification)
+  // CAUSE 2: User clicks again to collapse
   fireEvent.click(button);
 
-  // EFFECT: Restored to collapsed state
+  // EFFECT 2: State restored to collapsed
   expect(button).toHaveAttribute("aria-expanded", "false");
   expect(content).toHaveAttribute("hidden");
 });
@@ -83,75 +135,40 @@ it("expands content on click and updates accessibility attributes", () => {
 
 ---
 
-### 3. Query Through the Accessibility Tree
-Always query elements the way assistive technologies and users find them: by role, label, and accessible name (`getByRole`, `getByLabelText`, `getByPlaceholderText`) rather than generic class selectors or arbitrary test IDs:
-
-#### Anti-pattern (Implementation Detail Queries)
-```tsx
-// ❌ Bad: Relies on CSS class selectors that break during styling refactors
-const btn = container.querySelector(".collapsible-toggle-btn");
-expect(btn.classList.contains("active")).toBe(true);
-```
-
-#### Compliant Pattern (Semantic Accessible Role Queries)
-```tsx
-// ✅ Good: Queries accessible role and verifies aria-expanded attribute
-const button = screen.getByRole("button", { name: /Setup Guide/i });
-expect(button).toHaveAttribute("aria-expanded", "true");
-```
-
----
-
-### 4. Complete Round-Trip State Transitions
-When testing interactive components with toggleable, modal, or expandable states, always test the **complete round-trip**:
-1. Check initial state (e.g. collapsed / closed).
-2. Trigger the opening action and assert opened state.
-3. Trigger the closing action and assert return to initial state.
-
----
-
-### 5. Deterministic Timer & Scroll Testing
-When component behavior involves asynchronous timeouts, debounce intervals, or scroll listeners, use fake timers and explicit scroll dispatching to test deterministic cause and effect:
+### 3. Forms & Mutation Workflows (e.g., `ContactForm`)
+Test user input, validation triggers, in-flight submission state, and terminal outcomes:
 
 ```tsx
-it("preserves highlight on navigation scroll and clears when user scrolls away", () => {
-  render(<CitationDemo />);
+it("locks submit button during in-flight network request and displays error on failure", async () => {
+  (global.fetch as jest.Mock).mockReturnValueOnce(
+    Promise.resolve({ ok: false, status: 500 }),
+  );
 
-  const citation = screen.getByText("(Reference 1)");
-  
-  // CAUSE 1: Click citation
-  fireEvent.click(citation);
-  
-  // EFFECT 1: Target reference is highlighted
-  const refItem = screen.getByText("Ref content").closest("li");
-  expect(refItem).toHaveAttribute("data-highlighted", "true");
+  render(<ContactForm />);
 
-  // CAUSE 2: Scroll settle debounce timer completes
-  act(() => {
-    jest.advanceTimersByTime(350);
+  // CAUSE 1: User fills fields and submits
+  fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "user@test.com" } });
+  fireEvent.click(screen.getByRole("button", { name: /send/i }));
+
+  // EFFECT 1: Button is disabled while request is active
+  await waitFor(() => {
+    expect(screen.getByRole("button", { name: /sending/i })).toBeDisabled();
   });
-  expect(refItem).toHaveAttribute("data-highlighted", "true");
 
-  // CAUSE 3: User scrolls away past tolerance threshold
-  Object.defineProperty(window, "scrollY", { value: 150, writable: true });
-  fireEvent.scroll(window);
-
-  // EFFECT 3: Highlight is dismissed
-  expect(refItem).not.toHaveAttribute("data-highlighted");
+  // EFFECT 2: Error alert displayed upon failure and button re-enabled
+  await waitFor(() => {
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /send/i })).not.toBeDisabled();
+  });
 });
 ```
 
 ---
 
-## Allowed Exceptions
-- **Pure Snapshot / Visual Regression Suites**: Dedicated visual regression test files (e.g. Storybook interaction tests or Playwright visual diffs) where visual screenshot capture is the designated assertion.
-- **Static Contract Smoke Tests**: Basic mounting smoke tests, provided they are part of a test suite that contains full behavioral tests for all interactive paths.
-
----
-
-## Transformation Checklist
-1. [ ] Review each test in the diff: does it establish an initial condition, execute a cause (interaction/event), and assert on the effect?
-2. [ ] Replace bare `toBeInTheDocument()` assertions with semantic accessibility state checks (`aria-expanded`, `aria-hidden`, `disabled`, `data-highlighted`).
-3. [ ] Verify that toggleable/expandable components test both opening and closing transitions.
-4. [ ] Ensure element queries use `getByRole`, `getByLabelText`, or accessible queries instead of CSS selectors.
-5. [ ] Run `pnpm run test` to ensure all tests pass cleanly.
+## Transformation & Audit Checklist
+Before approving any test suite:
+1. [ ] **No Display Checks**: Did you eliminate all tests that merely check if titles, dates, excerpts, images, or DOM nodes are displayed (`toBeInTheDocument()`)?
+2. [ ] **Explicit Cause**: Does every test case trigger a clear action (user event, keyboard event, timer tick, or async response)?
+3. [ ] **Observable Effect**: Does the assertion verify an outcome of that cause (navigation, callback execution, state toggle, or error handling)?
+4. [ ] **Round-Trip Transitions**: For stateful components, are both opening and closing / activating and deactivating paths verified?
+5. [ ] **Green Quality Gates**: Do all tests pass via `pnpm test`?
