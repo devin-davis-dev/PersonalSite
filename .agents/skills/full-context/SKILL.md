@@ -1,5 +1,5 @@
 ---
-name: personal-site-context
+name: full-context
 description: >-
   Provides comprehensive architectural understanding, coding standards, i18n rules,
   and verification workflows for the PersonalSite monorepo (Gatsby 5 frontend, Hardhat
