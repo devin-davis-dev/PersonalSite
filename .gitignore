@@ -19,6 +19,10 @@ pnpm-debug.log*
 # Playwright
 test-results/
 playwright-report/
+blob-report/
+.playwright/
+playwright/.cache/
+playwright/.auth/
 .aider*
 
 # Python
