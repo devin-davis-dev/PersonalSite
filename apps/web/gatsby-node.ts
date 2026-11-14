@@ -238,8 +238,17 @@ export const onCreateNode: GatsbyNode["onCreateNode"] = async ({
 export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
   actions,
   getConfig,
+  plugins,
 }) => {
   const config = getConfig();
+
+  // Ensure React is provided globally to prevent SSR build issues with external libraries
+  config.plugins = [
+    ...(config.plugins || []),
+    plugins.provide({
+      React: "react",
+    }),
+  ];
 
   // Ensure all CSS rules treat imports as having side effects so Webpack 5
   // never tree-shakes npm package stylesheets (e.g. @rainbow-me/rainbowkit/styles.css)

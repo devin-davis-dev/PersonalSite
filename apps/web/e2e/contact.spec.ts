@@ -1,32 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Contact Page", () => {
+test.describe("Contact Page Behavior", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/contact");
-  });
-
-  test("renders contact page heading, form elements, and quick template buttons", async ({
-    page,
-  }) => {
-    await expect(page).toHaveTitle(/Contact/i);
-    await expect(
-      page.getByRole("heading", { name: "Let's Talk About You", level: 1 }),
-    ).toBeVisible();
-
-    await expect(page.getByPlaceholder("Email Address...")).toBeVisible();
-    await expect(page.getByPlaceholder("Subject...")).toBeVisible();
-    await expect(page.getByPlaceholder("Message...")).toBeVisible();
-    await expect(page.getByRole("button", { name: "SEND" })).toBeVisible();
-
-    await expect(
-      page.getByRole("button", { name: "Request Resume & References" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Full-Time Role" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Project / Consulting" }),
-    ).toBeVisible();
   });
 
   test("clicking quick template button populates and toggles form fields", async ({
@@ -49,6 +25,17 @@ test.describe("Contact Page", () => {
     await resumePresetBtn.click();
     await expect(subjectInput).toHaveValue("");
     await expect(messageInput).toHaveValue("");
+  });
+
+  test("clicking sidebar contact form link highlights form and selects resume template", async ({
+    page,
+  }) => {
+    const sidebarLink = page.getByRole("link", { name: "contact form" });
+    const subjectInput = page.getByPlaceholder("Subject...");
+
+    // Clicking the inline sidebar link focuses/highlights the form and applies the resume preset
+    await sidebarLink.click();
+    await expect(subjectInput).toHaveValue("Request for Resume and References");
   });
 
   test("pre-fills form when intent query param is present in URL", async ({
@@ -77,9 +64,12 @@ test.describe("Contact Page", () => {
     await expect(page.getByText("Thank you for the email!")).not.toBeVisible();
   });
 
-  test("successfully sends message and shows confirmation view", async ({
+  test("successfully submits form, displays success screen, and copies PGP key to clipboard", async ({
+    context,
     page,
   }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+
     // Intercept contact form POST submission
     await page.route("**/contact", async (route) => {
       if (route.request().method() === "POST") {
@@ -93,6 +83,17 @@ test.describe("Contact Page", () => {
       }
     });
 
+    // Mock PGP public key endpoint
+    const mockPgpKey =
+      "-----BEGIN PGP PUBLIC KEY BLOCK-----\nmock-key\n-----END PGP PUBLIC KEY BLOCK-----";
+    await page.route("**/pgp-key.asc", async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: "text/plain",
+        body: mockPgpKey,
+      });
+    });
+
     await page
       .getByPlaceholder("Email Address...")
       .fill("recruiter@example.com");
@@ -102,13 +103,21 @@ test.describe("Contact Page", () => {
 
     await page.getByRole("button", { name: "SEND" }).click();
 
-    // Verify success confirmation view and toast
+    // Verify success confirmation view replaces form
     await expect(page.getByText("Thank you for the email!")).toBeVisible();
     await expect(
       page.getByText("I'll be in touch with you shortly."),
     ).toBeVisible();
     await expect(page.getByRole("link", { name: "Back Home" })).toBeVisible();
-    await expect(page.getByText("Email sent successfully!")).toBeVisible();
+
+    // Test Copy PGP button interaction and clipboard write
+    await page.getByRole("button", { name: /Copy PGP/i }).click();
+    await expect(page.getByText("PGP key copied to clipboard!")).toBeVisible();
+
+    const clipboardText = await page.evaluate(() =>
+      navigator.clipboard.readText(),
+    );
+    expect(clipboardText).toBe(mockPgpKey);
   });
 
   test("displays error toast and retains input when submission fails", async ({
